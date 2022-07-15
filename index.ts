@@ -4,7 +4,7 @@ import { DynamoBookingPersistence } from "./src/services/persistence/booking/dyn
 import { PrettyLogger } from "./src/services/logger/pretty/PrettyLogger";
 import { JsonLogger } from "./src/services/logger/json/JsonLogger";
 
-const logger = new JsonLogger();
+const logger = new PrettyLogger();
 const bookingPersistence = new DynamoBookingPersistence();
 
 const createBooking = new CreateBooking(logger, bookingPersistence);

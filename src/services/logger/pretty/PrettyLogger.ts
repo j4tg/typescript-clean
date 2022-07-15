@@ -1,5 +1,5 @@
-import { Logger } from "../Logger";
 import stringify from "fast-safe-stringify";
+import { Logger } from "../Logger";
 
 export class PrettyLogger implements Logger {
   private color = {

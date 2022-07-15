@@ -1,12 +1,11 @@
 import { BookingPersistence } from "../BookingPersistence";
 import { Booking } from "../Booking";
+import { Logger } from "../../../logger/Logger";
 
 export class DynamoBookingPersistence implements BookingPersistence {
-  create(booking: Booking): void {}
+  constructor(private logger: Logger) {}
 
-  getById(id: string): Booking {
-    return {
-      id: "",
-    };
+  create(booking: Booking): void {
+    this.logger.debug("dynamodb booking create", booking);
   }
 }

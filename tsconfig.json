@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "allowJs": true,
+    "sourceMap": true,
+    "target": "es2019",
+    "strict": true
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"]
+}

@@ -1,6 +1,6 @@
-import "./register/logger";
-import "./register/feature-flag";
-import "./register/persistence";
-import "./register/usecase";
+import "./register/services/logger";
+import "./register/services/feature-flag";
+import "./register/repositories";
+import "./register/usecases";
 
 export { container } from "./instance";

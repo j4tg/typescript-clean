@@ -1,5 +1,5 @@
 import { Booking } from "./Booking";
 
-export interface BookingPersistence {
+export interface BookingRepository {
   create(booking: Booking): void;
 }

@@ -8,4 +8,4 @@ function server {
   FEATURE_JIRA_1000=1 npm run start
 }
 
-${@:-echo "unrecognized task"}
+${@:-echo "enter a command"}

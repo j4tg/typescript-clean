@@ -6,7 +6,7 @@ export class JsonLogger implements Logger {
     console.log({
       date: new Date().toISOString(),
       message: message,
-      object: object ?? stringify(object),
+      object: stringify(object),
     });
   }
 }

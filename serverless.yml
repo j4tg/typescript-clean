@@ -1,0 +1,27 @@
+service: agenda-backend-api
+frameworkVersion: "3"
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  memorySize: 256
+  timeout: 30
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    keepOutputDirectory: true
+  serverless-offline:
+    useChildProcesses: true
+
+functions:
+  hello:
+    handler: ./src/functions/http/api/index.handler
+    events:
+      - http:
+          path: /hello
+          method: get

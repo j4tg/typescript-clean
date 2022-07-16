@@ -8,4 +8,8 @@ function server {
   FEATURE_JIRA_1000=1 npm run start
 }
 
+function build {
+  npm run build
+}
+
 ${@:-echo "enter a command"}

@@ -1,6 +1,6 @@
 import { BookingRepository } from "../BookingRepository";
 import { Booking } from "../Booking";
-import { Logger } from "../../../services/logger/Logger";
+import { Logger } from "../../../service/logger/Logger";
 
 export class DynamoBookingRepository implements BookingRepository {
   constructor(private logger: Logger) {}

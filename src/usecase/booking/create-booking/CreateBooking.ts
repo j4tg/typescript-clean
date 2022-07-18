@@ -1,6 +1,6 @@
-import { Logger } from "../../../services/logger/Logger";
-import { BookingRepository } from "../../../repositories/booking/BookingRepository";
-import { FeatureFlag } from "../../../services/feature-flag/FeatureFlag";
+import { Logger } from "../../../service/logger/Logger";
+import { BookingRepository } from "../../../repository/booking/BookingRepository";
+import { FeatureFlag } from "../../../service/feature-flag/FeatureFlag";
 
 export class CreateBooking {
   constructor(

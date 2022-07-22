@@ -1,5 +1,5 @@
 import { Feature } from "./Feature";
 
 export interface FeatureWebhook {
-  toFeature: (data: { [key: string]: any }) => Feature;
+  toFeature: (payload: { [key: string]: any }) => Feature;
 }

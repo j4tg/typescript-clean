@@ -19,9 +19,12 @@ custom:
     useChildProcesses: true
 
 functions:
-  hello:
-    handler: ./src/functions/http/api/index.handler
+  webhook:
+    handler: ./src/function/http/webhook.handler
     events:
       - http:
-          path: /hello
-          method: get
+          path: /webhook
+          method: ANY
+      - http:
+          path: /webhook/{proxy+}
+          method: ANY

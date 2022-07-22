@@ -1,8 +1,5 @@
-import { asClass } from "awilix";
-import { container } from "../../instance";
+import { container } from "tsyringe";
 import { FeatureWebhook } from "@/service/feature-webhook/FeatureWebhook";
 import { FlagsmithFeatureWebhook } from "@/service/feature-webhook/flagsmith/FlagsmithFeatureWebhook";
 
-container.register({
-  featureSource: asClass<FeatureWebhook>(FlagsmithFeatureWebhook),
-});
+container.register<FeatureWebhook>("FeatureWebhook", FlagsmithFeatureWebhook);

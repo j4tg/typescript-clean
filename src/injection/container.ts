@@ -1,7 +1,7 @@
+import "reflect-metadata";
 import "./load/service/logger";
-import "./load/service/feature-flag";
 import "./load/service/feature-source";
-import "./load/repository/repository";
-import "./load/usecase/usecase";
+import "./load/service/feature-flag";
+import "./load/repository";
 
-export { container } from "./instance";
+export { container } from "tsyringe";

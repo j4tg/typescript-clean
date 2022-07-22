@@ -10,6 +10,8 @@ interface Handler {
 }
 
 export const httpEventHandler = (handler: Handler) => {
+  const logger = container.resolve<Logger>("Logger");
+
   return async (event: APIGatewayEvent) => {
     try {
       const response = await handler(event);
@@ -20,7 +22,7 @@ export const httpEventHandler = (handler: Handler) => {
         body: JSON.stringify(response.body),
       };
     } catch (error) {
-      container.resolve<Logger>("logger").debug("httpEventHandler", { error });
+      logger.debug("httpEventHandler", { error });
 
       let message = error instanceof Error ? error.message : "Unexpected error";
       return {

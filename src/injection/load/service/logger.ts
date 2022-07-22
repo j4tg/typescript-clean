@@ -1,8 +1,5 @@
-import { asClass } from "awilix";
-import { container } from "../../instance";
+import { container } from "tsyringe";
 import { Logger } from "@/service/logger/Logger";
 import { PrettyLogger } from "@/service/logger/pretty/PrettyLogger";
 
-container.register({
-  logger: asClass<Logger>(PrettyLogger),
-});
+container.register<Logger>("Logger", PrettyLogger);

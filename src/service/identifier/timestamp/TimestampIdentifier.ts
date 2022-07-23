@@ -1,7 +1,7 @@
-import { Identifier } from "../Identifier";
+import { Identifier } from '../Identifier'
 
 export class TimestampIdentifier implements Identifier {
-  unique(): string {
-    return new Date().getTime().toString();
+  unique (): string {
+    return new Date().getTime().toString()
   }
 }

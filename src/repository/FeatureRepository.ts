@@ -1,4 +1,4 @@
-import { Feature } from "../model/Feature";
+import { Feature } from '../model/Feature'
 
 export interface FeatureRepository {
   create: (feature: Feature) => Promise<void>;

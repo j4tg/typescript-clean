@@ -1,9 +1,9 @@
-import "reflect-metadata";
+import 'reflect-metadata'
 
-import "./service/logger";
-import "./service/identifier";
-import "./service/feature-flag";
-import "./service/feature-remote";
-import "./repository/feature";
+import './service/logger'
+import './service/identifier'
+import './service/feature-flag'
+import './service/feature-remote'
+import './repository/feature'
 
-export { container } from "tsyringe";
+export { container } from 'tsyringe'

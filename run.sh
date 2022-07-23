@@ -16,4 +16,9 @@ function format {
   npx prettier --write .
 }
 
+function test {
+  npx prettier --write .
+  ./node_modules/.bin/ts-standard
+}
+
 ${@:-echo "enter a command"}

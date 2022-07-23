@@ -6,7 +6,7 @@ export function stringify(object?: { [key: string]: any }) {
 
 function replacer(key: string, value: any) {
   if (value instanceof Error) {
-    var error: { [key: string]: any } = {};
+    const error: { [key: string]: any } = {};
     Object.getOwnPropertyNames(value).forEach(function (propName) {
       error[propName] = (value as any)[propName];
     });

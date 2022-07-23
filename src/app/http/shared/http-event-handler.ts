@@ -17,7 +17,7 @@ export const httpEventHandler = (handler: Handler) => {
       logger.debug("httpEventHandler error", { error });
 
       let message = "Unknown error";
-      let debug = undefined;
+      let debug;
 
       if (error instanceof Error) {
         message = error.message;
@@ -35,9 +35,7 @@ export const httpEventHandler = (handler: Handler) => {
   };
 };
 
-interface Handler {
-  (event: APIGatewayEvent): Promise<{
-    status?: number;
-    body?: { [key: string]: any };
-  }>;
-}
+type Handler = (event: APIGatewayEvent) => Promise<{
+  status?: number;
+  body?: { [key: string]: any };
+}>;

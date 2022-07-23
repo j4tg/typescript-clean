@@ -6,7 +6,7 @@ import { PayloadSchema } from "./PayloadSchema";
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
-  constructor(@inject("Logger") private logger: Logger) {}
+  constructor(@inject("Logger") private readonly logger: Logger) {}
 
   @tryCatch()
   parseWebhook(webhook: unknown): Feature {
@@ -15,7 +15,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
     const payload = PayloadSchema.parse(webhook);
 
     if (payload.event_type === "FLAG_DELETED") {
-      if (!payload.data.previous_state) {
+      if (payload.data.previous_state == null) {
         throw new Error("previous_state is required");
       }
 
@@ -27,7 +27,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
       };
     }
 
-    if (!payload.data.new_state) {
+    if (payload.data.new_state == null) {
       throw new Error("new_state is required");
     }
 

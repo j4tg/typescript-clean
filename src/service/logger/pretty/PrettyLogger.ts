@@ -2,7 +2,7 @@ import { Logger } from "../Logger";
 import { stringify } from "../stringify";
 
 export class PrettyLogger implements Logger {
-  private color = {
+  private readonly color = {
     message: "\x1b[36m",
     body: "\x1b[90m",
     reset: "\x1b[0m",

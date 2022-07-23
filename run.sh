@@ -16,9 +16,12 @@ function format {
   npx prettier --write .
 }
 
-function test {
-  npx prettier --write .
+function linter {
   ./node_modules/.bin/ts-standard
+}
+
+function test {
+  format && linter
 }
 
 ${@:-echo "enter a command"}

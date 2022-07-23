@@ -5,10 +5,11 @@ import { FeatureRepository } from "../repository/FeatureRepository";
 @injectable()
 export class GetAllFeatures {
   constructor(
-    @inject("FeatureRepository") private featureRepository: FeatureRepository
+    @inject("FeatureRepository")
+    private readonly featureRepository: FeatureRepository
   ) {}
 
   async execute(): Promise<Feature[]> {
-    return this.featureRepository.getAll();
+    return await this.featureRepository.getAll();
   }
 }

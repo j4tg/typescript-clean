@@ -32,7 +32,7 @@ function makeHandleError(
   const className = target?.constructor?.name;
 
   return function (error: unknown) {
-    let reason = "Unexpected error";
+    const reason = "Unexpected error";
 
     throw new UnexpectedError(
       `${className}#${propertyName}: ${friendyMessage ?? reason}`,

@@ -8,10 +8,11 @@ import { Identifier } from "../service/identifier/Identifier";
 @injectable()
 export class FeatureSyncWithWebhook {
   constructor(
-    @inject("FeatureRemote") private featureRemote: FeatureRemote,
-    @inject("FeatureRepository") private featureRepository: FeatureRepository,
-    @inject("Identifier") private identifier: Identifier,
-    @inject("Logger") private logger: Logger
+    @inject("FeatureRemote") private readonly featureRemote: FeatureRemote,
+    @inject("FeatureRepository")
+    private readonly featureRepository: FeatureRepository,
+    @inject("Identifier") private readonly identifier: Identifier,
+    @inject("Logger") private readonly logger: Logger
   ) {}
 
   async execute(webhook: unknown): Promise<void> {

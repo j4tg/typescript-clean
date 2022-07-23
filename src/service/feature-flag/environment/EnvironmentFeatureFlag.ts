@@ -2,7 +2,7 @@ import { Logger } from "../../logger/Logger";
 import { FeatureFlag } from "../FeatureFlag";
 
 export class EnvironmentFeatureFlag implements FeatureFlag {
-  constructor(private logger: Logger) {}
+  constructor(private readonly logger: Logger) {}
 
   isEnabled(flagName: string): boolean {
     const isEnabled = !!process.env["FEATURE_" + flagName];

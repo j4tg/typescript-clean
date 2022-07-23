@@ -8,3 +8,5 @@ node_modules
 !.gitignore
 !.gitattributes
 !.editorconfig
+!.prettierrc.json
+!.prettierignore

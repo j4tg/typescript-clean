@@ -1,5 +1,9 @@
 import safeStringify from 'fast-safe-stringify'
 
+export function stringify (object?: { [key: string]: any }) {
+  return safeStringify(object, replacer, 2)
+}
+
 function replacer (key: string, value: any) {
   if (value instanceof Error) {
     const error: { [key: string]: any } = {}
@@ -9,8 +13,4 @@ function replacer (key: string, value: any) {
     return error
   }
   return value
-}
-
-export function stringify (object?: { [key: string]: any }) {
-  return safeStringify(object, replacer, 2)
 }

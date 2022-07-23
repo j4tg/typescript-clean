@@ -19,6 +19,6 @@
     "@typescript-eslint/no-useless-constructor": ["error"],
 
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"]
+    "@typescript-eslint/no-use-before-define": ["error", {"functions": false, "classes": false}]
   }
 }

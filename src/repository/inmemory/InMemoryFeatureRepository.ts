@@ -32,4 +32,8 @@ export class InMemoryFeatureRepository implements FeatureRepository {
       (item) => item.name === featureName
     );
   }
+
+  async getAll(): Promise<Feature[]> {
+    return InMemoryFeatureRepository.features;
+  }
 }

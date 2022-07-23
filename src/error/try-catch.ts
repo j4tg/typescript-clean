@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { UnexpectedError } from "./UnexpectedError";
 
 export function tryCatch(friendyMessage?: string) {
   return function (target: any, propertyName: any, descriptor: any) {
@@ -8,7 +8,6 @@ export function tryCatch(friendyMessage?: string) {
     descriptor.value = function (...args: any) {
       try {
         const result = method.apply(this, args);
-
         if (isPromise(result)) {
           return result.catch(handleError);
         }
@@ -32,17 +31,12 @@ function makeHandleError(
 ) {
   const className = target?.constructor?.name;
 
-  return function (error: any) {
+  return function (error: unknown) {
     let reason = "Unexpected error";
 
-    if (error instanceof z.ZodError) {
-      reason = "Schema validation error";
-    } else if (error instanceof Error) {
-      reason = error.message;
-    }
-
-    throw new Error(
-      `${className}#${propertyName}: ${friendyMessage ?? reason}`
+    throw new UnexpectedError(
+      `${className}#${propertyName}: ${friendyMessage ?? reason}`,
+      error
     );
   };
 }

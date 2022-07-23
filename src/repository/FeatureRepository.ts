@@ -5,4 +5,5 @@ export interface FeatureRepository {
   update(feature: Feature): Promise<void>;
   deleteById(featureId: string): Promise<void>;
   getByName(featureName: string): Promise<Feature | undefined>;
+  getAll(): Promise<Feature[]>;
 }

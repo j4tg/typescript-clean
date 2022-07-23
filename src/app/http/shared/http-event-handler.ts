@@ -1,13 +1,7 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { Logger } from "@/service/logger/Logger";
+import { stringify } from "@/service/logger/stringify";
 import { container } from "@/injection/container";
-
-interface Handler {
-  (event: APIGatewayEvent): Promise<{
-    statusCode?: number;
-    body: { [key: string]: any };
-  }>;
-}
 
 export const httpEventHandler = (handler: Handler) => {
   const logger = container.resolve<Logger>("Logger");
@@ -15,22 +9,35 @@ export const httpEventHandler = (handler: Handler) => {
   return async (event: APIGatewayEvent) => {
     try {
       const response = await handler(event);
-
       return {
-        statusCode: 200,
-        ...response,
+        statusCode: response.status ?? 200,
         body: JSON.stringify(response.body),
       };
     } catch (error) {
-      logger.debug("httpEventHandler", { error });
+      logger.debug("httpEventHandler error", { error });
 
-      let message = error instanceof Error ? error.message : "Unexpected error";
+      let message = "Unknown error";
+      let debug = undefined;
+
+      if (error instanceof Error) {
+        message = error.message;
+        debug = JSON.parse(stringify(error));
+      }
+
       return {
         statusCode: 500,
         body: JSON.stringify({
           error: message,
+          debug,
         }),
       };
     }
   };
 };
+
+interface Handler {
+  (event: APIGatewayEvent): Promise<{
+    status?: number;
+    body?: { [key: string]: any };
+  }>;
+}

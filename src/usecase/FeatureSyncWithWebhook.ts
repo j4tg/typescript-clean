@@ -1,4 +1,5 @@
-import { injectable } from "tsyringe";
+import { Logger } from "@/service/logger/Logger";
+import { inject, injectable } from "tsyringe";
 import { Feature } from "../model/Feature";
 import { FeatureRepository } from "../repository/FeatureRepository";
 import { FeatureRemote } from "../service/feature-remote/FeatureRemote";
@@ -7,9 +8,10 @@ import { Identifier } from "../service/identifier/Identifier";
 @injectable()
 export class FeatureSyncWithWebhook {
   constructor(
-    private featureRemote: FeatureRemote,
-    private featureRepository: FeatureRepository,
-    private identifier: Identifier
+    @inject("FeatureRemote") private featureRemote: FeatureRemote,
+    @inject("FeatureRepository") private featureRepository: FeatureRepository,
+    @inject("Identifier") private identifier: Identifier,
+    @inject("Logger") private logger: Logger
   ) {}
 
   async execute(webhook: unknown): Promise<void> {
@@ -19,6 +21,7 @@ export class FeatureSyncWithWebhook {
     if (featureWebhook.isDeleted) {
       if (feature != null) {
         await this.featureRepository.deleteById(feature.id);
+        this.logger.debug(`Feature ${feature.name} deleted`);
         return;
       }
       return;
@@ -27,6 +30,7 @@ export class FeatureSyncWithWebhook {
     if (feature != null) {
       feature.isEnabled = featureWebhook.isEnabled;
       await this.featureRepository.update(feature);
+      this.logger.debug(`Feature ${feature.name} updated`);
       return;
     }
 
@@ -37,5 +41,7 @@ export class FeatureSyncWithWebhook {
         featureWebhook.isEnabled
       )
     );
+
+    this.logger.debug(`Feature ${featureWebhook.name} created`);
   }
 }

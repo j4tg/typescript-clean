@@ -9,3 +9,7 @@ Ejecutar servidor en modo local
 ```
 ./run.sh server
 ```
+
+
+links:
+- https://stackoverflow.com/questions/72611627/what-is-clean-architecture-in-net

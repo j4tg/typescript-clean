@@ -24,7 +24,7 @@ function lint {
 }
 
 function test {
-  format && linter
+  lint
 }
 
 ${@:-echo "enter a command"}

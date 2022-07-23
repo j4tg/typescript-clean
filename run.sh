@@ -17,7 +17,7 @@ function format {
 }
 
 function lint {
-  npx eslint "./**"
+  npx eslint "./**.{ts,js}" "$@"
 
   # Para arreglar usar el siguiente comando:
   # ./run.sh lint --fix

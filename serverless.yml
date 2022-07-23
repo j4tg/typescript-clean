@@ -20,7 +20,7 @@ custom:
 
 functions:
   webhook:
-    handler: ./src/function/http/webhook.handler
+    handler: ./src/app/http/webhook.handler
     events:
       - http:
           path: /webhook

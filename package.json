@@ -7,7 +7,6 @@
   },
   "scripts": {
     "start": "serverless offline start",
-    "build": "serverless package",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -21,6 +20,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.101",
     "@types/node": "^16.11.45",
+    "prettier": "^2.7.1",
     "serverless": "^3.21.0",
     "serverless-offline": "^8.8.1",
     "serverless-webpack": "^5.7.1",

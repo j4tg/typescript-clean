@@ -14,9 +14,6 @@ provider:
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
-    keepOutputDirectory: true
-  serverless-offline:
-    useChildProcesses: true
 
 functions:
   api:

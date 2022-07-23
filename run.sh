@@ -9,7 +9,11 @@ function server {
 }
 
 function build {
-  npm run build
+  npx serverless package
+}
+
+function format {
+  npx prettier --write .
 }
 
 ${@:-echo "enter a command"}

@@ -8,4 +8,3 @@
 - usecases
 
 <h3 id="config-directory">The Config Directory</h3
-

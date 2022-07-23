@@ -16,8 +16,11 @@ function format {
   npx prettier --write .
 }
 
-function linter {
-  ./node_modules/.bin/ts-standard
+function lint {
+  npx eslint "./**"
+
+  # Para arreglar usar el siguiente comando:
+  # ./run.sh lint --fix
 }
 
 function test {

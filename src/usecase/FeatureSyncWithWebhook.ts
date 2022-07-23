@@ -9,8 +9,7 @@ import { Identifier } from '../service/identifier/Identifier'
 export class FeatureSyncWithWebhook {
   constructor (
     @inject('FeatureRemote') private readonly featureRemote: FeatureRemote,
-    @inject('FeatureRepository')
-    private readonly featureRepository: FeatureRepository,
+    @inject('FeatureRepository') private readonly featureRepository: FeatureRepository,
     @inject('Identifier') private readonly identifier: Identifier,
     @inject('Logger') private readonly logger: Logger
   ) {}

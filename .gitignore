@@ -1,9 +1,12 @@
-# Node
+# node
 node_modules
 
-# Ignore all hidden files
+# coverage
+coverage
+
+# ignore all hidden files
 .*
-# Except
+# except
 !.gitkeep
 !.gitignore
 !.gitattributes

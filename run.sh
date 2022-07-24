@@ -6,7 +6,7 @@ function install {
 
 function server {
   lint && \
-  FEATURE_JIRA_1000=1 npm run start
+  FEATURE_JIRA_1000=1 npx serverless offline start
 }
 
 function format {
@@ -14,14 +14,20 @@ function format {
 }
 
 function lint {
-  # Para intentar arreglar use el comando:
-  # ./run.sh lint --fix
+  # command to try fix: ./run.sh lint --fix
 
   npx eslint . --ext .js,.ts "$@"
 }
 
 function test {
-  lint
+  # command to enable watch mode: ./run.sh test --watch
+  # command to run a single file: ./run.sh test <path>/<file>.ts
+
+  args="$@"
+  [[ -z $args ]] && args="--coverage"
+
+  lint && \
+  npx jest $args
 }
 
 ${@:-echo "enter a command"}

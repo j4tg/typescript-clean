@@ -9,6 +9,9 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
   constructor(@inject('Logger') private readonly logger: Logger) {}
 
   @tryCatch()
+  testing(): void {}
+
+  @tryCatch()
   parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith webhook', { webhook })
 

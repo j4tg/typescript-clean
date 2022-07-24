@@ -31,5 +31,5 @@ function makeHandleError(target: unknown, propertyName: string, friendyMessage?:
 }
 
 function isPromise(object: unknown): object is Promise<unknown> {
-  return (object as Promise<unknown>).then != null
+  return !!object && (object as Promise<unknown>).then != null
 }

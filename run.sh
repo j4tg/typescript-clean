@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 WC='\033[1;37m' # White Color
-NC='\033[0m' # No Color
+NC='\033[0m'    # No Color
 
 function install {
   npm ci --loglevel=error --no-audit "$@"
@@ -39,7 +39,7 @@ function prettier {
 }
 
 function eslint {
-  DEBUG=eslint:cli-engine npx eslint . --ext .js,.ts "$@" || {
+  npx eslint . --ext .js,.ts "$@" && echo "All matched files passed eslint!" || {
     echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"
     exit $1
   }

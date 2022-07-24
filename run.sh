@@ -13,7 +13,7 @@ function server {
 
   prettier &&
     eslint &&
-    FEATURE_JIRA_1000=1 npx serverless offline start $args
+    DEBUG=@:* npx serverless offline start $args
 }
 
 function test {
@@ -43,7 +43,10 @@ function prettier {
 function eslint {
   # to try fix: ./run.sh eslint --fix
 
-  npx eslint . --ext .js,.ts "$@" && echo "All matched files passed eslint!" || {
+  local args="$@"
+  [[ -z $args ]] && args="--max-warnings 0"
+
+  npx eslint --ext .js,.ts $args . || {
     echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"
     exit $1
   }

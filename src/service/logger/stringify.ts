@@ -1,7 +1,7 @@
 import safeStringify from 'fast-safe-stringify'
 
 export function stringify(object?: unknown) {
-  return safeStringify(object, replacer, 2)
+  return safeStringify(object, replacer, 4)
 }
 
 function replacer(key: string, value: unknown) {

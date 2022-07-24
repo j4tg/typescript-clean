@@ -1,3 +1,4 @@
 export interface Logger {
-  debug: (message: string, object?: { [key: string]: unknown }) => void
+  setName(name: string): this
+  debug: (message: string, ...details: unknown[]) => void
 }

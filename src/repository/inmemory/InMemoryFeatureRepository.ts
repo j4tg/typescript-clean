@@ -1,10 +1,18 @@
 import { Feature } from '@/model/Feature'
+import { Logger } from '@/service/logger/Logger'
+import { inject, injectable } from 'tsyringe'
 import { FeatureRepository } from '../FeatureRepository'
 
+@injectable()
 export class InMemoryFeatureRepository implements FeatureRepository {
   private static features: Feature[] = []
 
+  constructor(@inject('Logger') private logger: Logger) {
+    this.logger.setName('Repository:FeatureRepository:InMemory')
+  }
+
   async create(feature: Feature): Promise<void> {
+    this.logger.debug('create')
     InMemoryFeatureRepository.features.push(feature)
   }
 
@@ -27,6 +35,7 @@ export class InMemoryFeatureRepository implements FeatureRepository {
   }
 
   async getAll(): Promise<Feature[]> {
+    this.logger.debug('getAll')
     return InMemoryFeatureRepository.features
   }
 }

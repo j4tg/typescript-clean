@@ -6,13 +6,11 @@ import { PayloadSchema } from './PayloadSchema'
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
-  constructor(@inject('Logger') private readonly logger: Logger) {
-    this.logger.setName('Service:FeatureRemote:Flagsmith')
-  }
+  constructor(@inject('Logger') private readonly logger: Logger) {}
 
   @tryCatch()
   parseWebhook(webhook: unknown): Feature {
-    this.logger.debug('webhook', webhook)
+    this.logger.debug('flagsmith feature remote webhook', webhook)
 
     const payload = PayloadSchema.parse(webhook)
 

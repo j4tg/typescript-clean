@@ -12,18 +12,16 @@ export class FeatureSyncWithWebhook {
     @inject('FeatureRepository') private readonly featureRepository: FeatureRepository,
     @inject('Identifier') private readonly identifier: Identifier,
     @inject('Logger') private readonly logger: Logger
-  ) {
-    this.logger.setName('UseCase:FeatureSyncWithWebhook')
-  }
+  ) {}
 
   async execute(webhook: unknown): Promise<void> {
-    this.logger.debug('execute')
+    this.logger.debug('feature sync with webhook')
 
     const featureWebhook = this.featureRemote.parseWebhook(webhook)
     const feature = await this.featureRepository.getByName(featureWebhook.name)
 
     if (featureWebhook.isDeleted) {
-      this.logger.debug(`feature delete`)
+      this.logger.debug(`feature sync with webhook delete`)
 
       if (feature != null) {
         await this.featureRepository.deleteById(feature.id)
@@ -33,13 +31,13 @@ export class FeatureSyncWithWebhook {
     }
 
     if (feature != null) {
-      this.logger.debug(`feature update`)
+      this.logger.debug(`feature sync with webhook update`)
       feature.isEnabled = featureWebhook.isEnabled
       await this.featureRepository.update(feature)
       return
     }
 
-    this.logger.debug(`feature create`)
+    this.logger.debug(`feature sync with webhook create`)
     await this.featureRepository.create(
       new Feature(this.identifier.unique(), featureWebhook.name, featureWebhook.isEnabled)
     )

@@ -1,6 +1,5 @@
 import { Logger } from '../Logger'
 import { stringify } from '../stringify'
-import debug from 'debug'
 
 export class PrettyLogger implements Logger {
   private readonly color = {
@@ -9,15 +8,8 @@ export class PrettyLogger implements Logger {
     reset: '\x1b[0m'
   }
 
-  private namespace = '@'
-
-  setName(name: string): this {
-    this.namespace += ':' + name
-    return this
-  }
-
   debug(message: string, ...details: unknown[]): void {
-    debug(this.namespace)(
+    console.log(
       `${this.color.message}${message}${this.color.reset}`,
       ...details.map((detail) => {
         if (typeof detail === 'object') {

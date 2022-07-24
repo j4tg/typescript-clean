@@ -12,7 +12,6 @@
   "dependencies": {
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1176.0",
-    "debug": "^4.3.4",
     "fast-safe-stringify": "^2.1.1",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.7.0",

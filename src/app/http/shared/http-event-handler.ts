@@ -4,7 +4,7 @@ import { stringify } from '@/service/logger/stringify'
 import { container } from '@/injection/container'
 
 export const httpEventHandler = (handler: Handler) => {
-  const logger = container.resolve<Logger>('Logger').setName('App:Http:Shared:httpEventHandler')
+  const logger = container.resolve<Logger>('Logger')
 
   return async (event: APIGatewayEvent) => {
     try {
@@ -14,7 +14,7 @@ export const httpEventHandler = (handler: Handler) => {
         body: secureBodyAsString(response.body)
       }
     } catch (error) {
-      logger.debug('error', error)
+      logger.debug('http event handler error', error)
 
       let message = 'Unknown error'
       let debug

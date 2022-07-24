@@ -4,12 +4,10 @@ import { Identifier } from '../Identifier'
 
 @injectable()
 export class TimestampIdentifier implements Identifier {
-  constructor(@inject('Logger') private readonly logger: Logger) {
-    this.logger.setName('Service:Identifier:Timestamp')
-  }
+  constructor(@inject('Logger') private readonly logger: Logger) {}
 
   unique(): string {
-    this.logger.debug('unique')
+    this.logger.debug('timestamp identifier unique')
     return new Date().getTime().toString()
   }
 }

@@ -7,12 +7,10 @@ import { FeatureRepository } from '../FeatureRepository'
 export class InMemoryFeatureRepository implements FeatureRepository {
   private static features: Feature[] = []
 
-  constructor(@inject('Logger') private logger: Logger) {
-    this.logger.setName('Repository:FeatureRepository:InMemory')
-  }
+  constructor(@inject('Logger') private logger: Logger) {}
 
   async create(feature: Feature): Promise<void> {
-    this.logger.debug('create')
+    this.logger.debug('in memory feature repository create')
     InMemoryFeatureRepository.features.push(feature)
   }
 
@@ -35,7 +33,7 @@ export class InMemoryFeatureRepository implements FeatureRepository {
   }
 
   async getAll(): Promise<Feature[]> {
-    this.logger.debug('getAll')
+    this.logger.debug('in memory feature repository get all')
     return InMemoryFeatureRepository.features
   }
 }

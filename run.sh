@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+WC='\033[1;37m' # White Color
+NC='\033[0m' # No Color
+
 function install {
   npm ci --loglevel=error --no-audit "$@"
 }
@@ -26,21 +29,20 @@ function test {
 }
 
 function prettier {
-  # try to fix: ./run.sh prettier --write .
-
   local args="$@"
   [[ -z $args ]] && args="--check ."
 
   npx prettier $args || {
-    echo -e "\ntry to fix: ./run.sh prettier --write ."
+    echo -e "\ntry to fix: ${WC}./run.sh prettier --write .${NC}"
     exit $1
   }
 }
 
 function eslint {
-  # try to fix: ./run.sh eslint --fix
-
-  npx eslint . --ext .js,.ts "$@"
+  npx eslint . --ext .js,.ts "$@" || {
+    echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"
+    exit $1
+  }
 }
 
 ${@:-echo "enter a command"}

@@ -5,29 +5,40 @@ function install {
 }
 
 function server {
-  format &&
-    lint &&
-    FEATURE_JIRA_1000=1 npx serverless offline start
+  local args="$@"
+  [[ -z $args ]] && args="--stage local"
+
+  prettier &&
+    eslint &&
+    FEATURE_JIRA_1000=1 npx serverless offline start $args
 }
 
 function test {
-  # command to enable watch mode: ./run.sh test --watch
-  # command to run a single file: ./run.sh test <path>/<file>.ts
+  # enable watch mode: ./run.sh test --watch
+  # run a single file: ./run.sh test <path>/<file>.ts
 
-  args="$@"
+  local args="$@"
   [[ -z $args ]] && args="--coverage"
 
-  format &&
-    lint &&
+  prettier &&
+    eslint &&
     npx jest $args
 }
 
-function format {
-  npx prettier --write .
+function prettier {
+  # try to fix: ./run.sh prettier --write .
+
+  local args="$@"
+  [[ -z $args ]] && args="--check ."
+
+  npx prettier $args || {
+    echo -e "\ntry to fix: ./run.sh prettier --write ."
+    exit $1
+  }
 }
 
-function lint {
-  # command to try fix: ./run.sh lint --fix
+function eslint {
+  # try to fix: ./run.sh eslint --fix
 
   npx eslint . --ext .js,.ts "$@"
 }

@@ -7,7 +7,7 @@ export function tryCatch(friendyMessage?: string) {
 
     descriptor.value = function (...args: unknown[]) {
       try {
-        const result = method?.apply(this, args)
+        const result = method.apply(this, args)
         if (isPromise(result)) {
           return result.catch(handleError)
         }
@@ -21,7 +21,7 @@ export function tryCatch(friendyMessage?: string) {
 }
 
 function makeHandleError(target: unknown, propertyName: string, friendyMessage?: string) {
-  const className = (target as Record<string, unknown>)?.constructor?.name
+  const className = (target as Record<string, unknown>).constructor.name
 
   return function (error: unknown) {
     const reason = 'Unexpected error'

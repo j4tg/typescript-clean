@@ -5,11 +5,8 @@ function install {
 }
 
 function server {
+  lint && \
   FEATURE_JIRA_1000=1 npm run start
-}
-
-function build {
-  npx serverless package
 }
 
 function format {
@@ -17,7 +14,7 @@ function format {
 }
 
 function lint {
-  # Para arreglar usar el siguiente comando:
+  # Para intentar arreglar use el comando:
   # ./run.sh lint --fix
 
   npx eslint . --ext .js,.ts "$@"

@@ -9,7 +9,7 @@ export class EnvironmentFeatureFlag implements FeatureFlag {
 
     this.logger.debug('environment feature flag', {
       flagName,
-      isEnabled,
+      isEnabled
     })
 
     return isEnabled

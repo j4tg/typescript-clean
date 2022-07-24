@@ -6,8 +6,6 @@ export const handler = httpEventHandler(async (event) => {
   await container.resolve(FeatureSyncWithWebhook).execute(JSON.parse(event.body || '{}'))
 
   return {
-    body: {
-      message: 'Handler api',
-    },
+    body: 'success'
   }
 })

@@ -5,7 +5,7 @@ export class PrettyLogger implements Logger {
   private readonly color = {
     message: '\x1b[36m',
     body: '\x1b[90m',
-    reset: '\x1b[0m',
+    reset: '\x1b[0m'
   }
 
   debug(message: string, object?: { [key: string]: unknown }): void {

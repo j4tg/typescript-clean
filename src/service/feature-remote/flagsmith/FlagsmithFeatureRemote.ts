@@ -23,7 +23,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
       return {
         name,
         isEnabled: false,
-        isDeleted: true,
+        isDeleted: true
       }
     }
 
@@ -37,7 +37,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
     return {
       name,
       isEnabled,
-      isDeleted: false,
+      isDeleted: false
     }
   }
 }

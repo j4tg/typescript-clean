@@ -5,7 +5,10 @@
   "engines": {
     "node": ">=16.15.0"
   },
-  "scripts": {},
+  "scripts": {
+    "start": "./run.sh server",
+    "test": "./run.sh test"
+  },
   "dependencies": {
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1176.0",

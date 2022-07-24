@@ -39,7 +39,7 @@ function prettier {
 }
 
 function eslint {
-  npx eslint . --ext .js,.ts "$@" || {
+  DEBUG=eslint:cli-engine npx eslint . --ext .js,.ts "$@" || {
     echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"
     exit $1
   }

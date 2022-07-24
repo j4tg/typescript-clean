@@ -6,10 +6,10 @@ import { PayloadSchema } from './PayloadSchema'
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
-  constructor (@inject('Logger') private readonly logger: Logger) {}
+  constructor(@inject('Logger') private readonly logger: Logger) {}
 
   @tryCatch()
-  parseWebhook (webhook: unknown): Feature {
+  parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith webhook', { webhook })
 
     const payload = PayloadSchema.parse(webhook)
@@ -23,7 +23,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
       return {
         name,
         isEnabled: false,
-        isDeleted: true
+        isDeleted: true,
       }
     }
 
@@ -37,7 +37,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
     return {
       name,
       isEnabled,
-      isDeleted: false
+      isDeleted: false,
     }
   }
 }

@@ -11,7 +11,7 @@ export const httpEventHandler = (handler: Handler) => {
       const response = await handler(event)
       return {
         statusCode: response.status ?? 200,
-        body: JSON.stringify(response.body)
+        body: JSON.stringify(response.body),
       }
     } catch (error) {
       logger.debug('httpEventHandler error', { error })
@@ -28,14 +28,14 @@ export const httpEventHandler = (handler: Handler) => {
         statusCode: 500,
         body: JSON.stringify({
           error: message,
-          debug
-        })
+          debug,
+        }),
       }
     }
   }
 }
 
 type Handler = (event: APIGatewayEvent) => Promise<{
-  status?: number;
-  body?: { [key: string]: any };
-}>;
+  status?: number
+  body?: { [key: string]: any }
+}>

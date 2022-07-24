@@ -1,9 +1,9 @@
 export interface FeatureRemote {
-  parseWebhook: (webhook: unknown) => Feature;
+  parseWebhook: (webhook: unknown) => Feature
 }
 
 export interface Feature {
-  name: string;
-  isEnabled: boolean;
-  isDeleted: boolean;
+  name: string
+  isEnabled: boolean
+  isDeleted: boolean
 }

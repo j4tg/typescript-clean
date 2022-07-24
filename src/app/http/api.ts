@@ -6,6 +6,6 @@ export const handler = httpEventHandler(async (event) => {
   const features = await container.resolve(GetAllFeatures).execute()
 
   return {
-    body: features
+    body: features,
   }
 })

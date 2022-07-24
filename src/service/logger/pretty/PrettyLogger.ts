@@ -5,10 +5,10 @@ export class PrettyLogger implements Logger {
   private readonly color = {
     message: '\x1b[36m',
     body: '\x1b[90m',
-    reset: '\x1b[0m'
+    reset: '\x1b[0m',
   }
 
-  debug (message: string, object?: { [key: string]: any }): void {
+  debug(message: string, object?: { [key: string]: any }): void {
     const date = new Date().toISOString()
     const body: string = object != null ? stringify(object) : ''
 

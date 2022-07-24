@@ -6,18 +6,18 @@ export const PayloadSchema = z.object({
       .object({
         enabled: z.boolean(),
         feature: z.object({
-          name: z.string()
-        })
+          name: z.string(),
+        }),
       })
       .nullable(),
     previous_state: z
       .object({
         enabled: z.boolean(),
         feature: z.object({
-          name: z.string()
-        })
+          name: z.string(),
+        }),
       })
-      .nullable()
+      .nullable(),
   }),
-  event_type: z.enum(['FLAG_DELETED', 'FLAG_UPDATED'])
+  event_type: z.enum(['FLAG_DELETED', 'FLAG_UPDATED']),
 })

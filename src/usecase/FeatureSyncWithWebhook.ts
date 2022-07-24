@@ -7,14 +7,14 @@ import { Identifier } from '../service/identifier/Identifier'
 
 @injectable()
 export class FeatureSyncWithWebhook {
-  constructor (
+  constructor(
     @inject('FeatureRemote') private readonly featureRemote: FeatureRemote,
     @inject('FeatureRepository') private readonly featureRepository: FeatureRepository,
     @inject('Identifier') private readonly identifier: Identifier,
     @inject('Logger') private readonly logger: Logger
   ) {}
 
-  async execute (webhook: unknown): Promise<void> {
+  async execute(webhook: unknown): Promise<void> {
     const featureWebhook = this.featureRemote.parseWebhook(webhook)
     const feature = await this.featureRepository.getByName(featureWebhook.name)
 
@@ -35,11 +35,7 @@ export class FeatureSyncWithWebhook {
     }
 
     await this.featureRepository.create(
-      new Feature(
-        this.identifier.unique(),
-        featureWebhook.name,
-        featureWebhook.isEnabled
-      )
+      new Feature(this.identifier.unique(), featureWebhook.name, featureWebhook.isEnabled)
     )
 
     this.logger.debug(`Feature ${featureWebhook.name} created`)

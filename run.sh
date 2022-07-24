@@ -12,6 +12,10 @@ function build {
   npx serverless package
 }
 
+function format {
+  npx prettier --write .
+}
+
 function lint {
   npx eslint . --ext .js,.ts "$@"
 

@@ -4,12 +4,12 @@ import { FeatureRepository } from '../repository/FeatureRepository'
 
 @injectable()
 export class GetAllFeatures {
-  constructor (
+  constructor(
     @inject('FeatureRepository')
     private readonly featureRepository: FeatureRepository
   ) {}
 
-  async execute (): Promise<Feature[]> {
+  async execute(): Promise<Feature[]> {
     return await this.featureRepository.getAll()
   }
 }

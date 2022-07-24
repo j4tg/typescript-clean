@@ -29,6 +29,8 @@ function test {
 }
 
 function prettier {
+  # to try fix: ./run.sh prettier --write .
+
   local args="$@"
   [[ -z $args ]] && args="--check ."
 
@@ -39,6 +41,8 @@ function prettier {
 }
 
 function eslint {
+  # to try fix: ./run.sh eslint --fix
+
   npx eslint . --ext .js,.ts "$@" && echo "All matched files passed eslint!" || {
     echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"
     exit $1

@@ -8,7 +8,7 @@ export class PrettyLogger implements Logger {
     reset: '\x1b[0m',
   }
 
-  debug(message: string, object?: { [key: string]: any }): void {
+  debug(message: string, object?: { [key: string]: unknown }): void {
     const date = new Date().toISOString()
     const body: string = object != null ? stringify(object) : ''
 

@@ -37,5 +37,5 @@ export const httpEventHandler = (handler: Handler) => {
 
 type Handler = (event: APIGatewayEvent) => Promise<{
   status?: number
-  body?: Record<string, any>
+  body?: { [key: string]: unknown } | Array<unknown>
 }>

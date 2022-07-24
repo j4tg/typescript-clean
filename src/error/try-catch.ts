@@ -1,13 +1,13 @@
 import { UnexpectedError } from './UnexpectedError'
 
 export function tryCatch(friendyMessage?: string) {
-  return function (target: any, propertyName: any, descriptor: any) {
+  return function (target: unknown, propertyName: string, descriptor: PropertyDescriptor) {
     const method = descriptor.value
     const handleError = makeHandleError(target, propertyName, friendyMessage)
 
-    descriptor.value = function (...args: any) {
+    descriptor.value = function (...args: unknown[]) {
       try {
-        const result = method.apply(this, args)
+        const result = method?.apply(this, args)
         if (isPromise(result)) {
           return result.catch(handleError)
         }
@@ -20,8 +20,8 @@ export function tryCatch(friendyMessage?: string) {
   }
 }
 
-function makeHandleError(target: any, propertyName: any, friendyMessage?: string) {
-  const className = target?.constructor?.name
+function makeHandleError(target: unknown, propertyName: string, friendyMessage?: string) {
+  const className = (target as Record<string, unknown>)?.constructor?.name
 
   return function (error: unknown) {
     const reason = 'Unexpected error'
@@ -30,6 +30,6 @@ function makeHandleError(target: any, propertyName: any, friendyMessage?: string
   }
 }
 
-function isPromise(object: any): object is Promise<any> {
-  return !!object && typeof object.then === 'function'
+function isPromise(object: unknown): object is Promise<unknown> {
+  return (object as Promise<unknown>).then != null
 }

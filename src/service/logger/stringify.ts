@@ -1,14 +1,14 @@
 import safeStringify from 'fast-safe-stringify'
 
-export function stringify(object?: { [key: string]: any }) {
+export function stringify(object?: unknown) {
   return safeStringify(object, replacer, 2)
 }
 
-function replacer(key: string, value: any) {
+function replacer(key: string, value: unknown) {
   if (value instanceof Error) {
-    const error: { [key: string]: any } = {}
+    const error: Record<string, unknown> = {}
     Object.getOwnPropertyNames(value).forEach((propName) => {
-      error[propName] = (value as any)[propName]
+      error[propName] = (value as unknown as Record<string, unknown>)[propName]
     })
     return error
   }

@@ -1,3 +1,3 @@
 export interface Logger {
-  debug: (message: string, object?: { [key: string]: any }) => void
+  debug: (message: string, object?: { [key: string]: unknown }) => void
 }

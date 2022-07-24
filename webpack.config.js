@@ -8,7 +8,6 @@ module.exports = {
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
   entry: slsw.lib.entries,
   target: 'node',
-  ignoreWarnings: [/critical dependency:/i],
   resolve: {
     extensions: ['.ts', '.js', '.json'],
     alias: {

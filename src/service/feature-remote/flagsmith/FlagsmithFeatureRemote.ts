@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe'
-import { Catch } from '@/error/catch'
+import { tryCatch } from '@/error/try-catch'
 import { Logger } from '@/service/logger/Logger'
 import { FeatureRemote, Feature } from '../FeatureRemote'
 import { PayloadSchema } from './PayloadSchema'
@@ -8,7 +8,7 @@ import { PayloadSchema } from './PayloadSchema'
 export class FlagsmithFeatureRemote implements FeatureRemote {
   constructor(@inject('Logger') private readonly logger: Logger) {}
 
-  @Catch()
+  @tryCatch()
   parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith feature remote webhook')
 

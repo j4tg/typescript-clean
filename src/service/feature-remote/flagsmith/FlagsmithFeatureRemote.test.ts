@@ -1,4 +1,3 @@
-import { container } from '@/injection/container'
 import { FlagsmithFeatureRemote } from './FlagsmithFeatureRemote'
 import { WebhookPayload } from './WebhookPayload'
 import { mock } from 'jest-mock-extended'
@@ -7,8 +6,7 @@ import { z } from 'zod'
 
 test('should return the name of the feature', () => {
   // Arrange
-  const scope = container.createChildContainer()
-  scope.registerInstance('Logger', mock<Logger>())
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
   const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_UPDATED',
     data: {
@@ -22,7 +20,7 @@ test('should return the name of the feature', () => {
   }
 
   // Act
-  const feature = scope.resolve(FlagsmithFeatureRemote).parseWebhook(webhook)
+  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
   expect(feature.name).toEqual('JIRA_1001')
@@ -30,8 +28,7 @@ test('should return the name of the feature', () => {
 
 test('should return an enabled feature', () => {
   // Arrange
-  const scope = container.createChildContainer()
-  scope.registerInstance('Logger', mock<Logger>())
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
   const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_UPDATED',
     data: {
@@ -45,7 +42,7 @@ test('should return an enabled feature', () => {
   }
 
   // Act
-  const feature = scope.resolve(FlagsmithFeatureRemote).parseWebhook(webhook)
+  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
   expect(feature.isEnabled).toBeTruthy()
@@ -54,8 +51,7 @@ test('should return an enabled feature', () => {
 
 test('should return an disabled feature', () => {
   // Arrange
-  const scope = container.createChildContainer()
-  scope.registerInstance('Logger', mock<Logger>())
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
   const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_UPDATED',
     data: {
@@ -69,7 +65,7 @@ test('should return an disabled feature', () => {
   }
 
   // Act
-  const feature = scope.resolve(FlagsmithFeatureRemote).parseWebhook(webhook)
+  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
   expect(feature.isEnabled).toBeFalsy()
@@ -78,8 +74,7 @@ test('should return an disabled feature', () => {
 
 test('should return an deleted feature', () => {
   // Arrange
-  const scope = container.createChildContainer()
-  scope.registerInstance('Logger', mock<Logger>())
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
   const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_DELETED',
     data: {
@@ -92,7 +87,7 @@ test('should return an deleted feature', () => {
   }
 
   // Act
-  const feature = scope.resolve(FlagsmithFeatureRemote).parseWebhook(webhook)
+  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
   expect(feature.isEnabled).toBeFalsy()

@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe'
 import { Catch } from '@/error/catch'
 import { Logger } from '@/service/logger/Logger'
 import { FeatureRemote, Feature } from '../FeatureRemote'
-import { PayloadSchema } from './PayloadSchema'
+import { WebhookPayload } from './WebhookPayload'
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
@@ -12,7 +12,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
   parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith feature remote webhook')
 
-    const payload = PayloadSchema.parse(webhook)
+    const payload = WebhookPayload.parse(webhook)
 
     if (payload.event_type === 'FLAG_DELETED') {
       if (payload.data.previous_state == null) {

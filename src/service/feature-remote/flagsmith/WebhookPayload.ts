@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const PayloadSchema = z.object({
+export const WebhookPayload = z.object({
   data: z.object({
     new_state: z
       .object({

@@ -1,6 +1,6 @@
 import { container } from '@/injection/container'
 import { FlagsmithFeatureRemote } from './FlagsmithFeatureRemote'
-import { PayloadSchema } from './PayloadSchema'
+import { WebhookPayload } from './WebhookPayload'
 import { mock } from 'jest-mock-extended'
 import { Logger } from '@/service/logger/Logger'
 import { z } from 'zod'
@@ -9,7 +9,7 @@ test('should return the name of the feature', () => {
   // Arrange
   const scope = container.createChildContainer()
   scope.registerInstance('Logger', mock<Logger>())
-  const webhook: z.infer<typeof PayloadSchema> = {
+  const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_UPDATED',
     data: {
       new_state: {
@@ -32,7 +32,7 @@ test('should return an enabled feature', () => {
   // Arrange
   const scope = container.createChildContainer()
   scope.registerInstance('Logger', mock<Logger>())
-  const webhook: z.infer<typeof PayloadSchema> = {
+  const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_UPDATED',
     data: {
       new_state: {
@@ -56,7 +56,7 @@ test('should return an disabled feature', () => {
   // Arrange
   const scope = container.createChildContainer()
   scope.registerInstance('Logger', mock<Logger>())
-  const webhook: z.infer<typeof PayloadSchema> = {
+  const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_UPDATED',
     data: {
       new_state: {
@@ -80,7 +80,7 @@ test('should return an deleted feature', () => {
   // Arrange
   const scope = container.createChildContainer()
   scope.registerInstance('Logger', mock<Logger>())
-  const webhook: z.infer<typeof PayloadSchema> = {
+  const webhook: z.infer<typeof WebhookPayload> = {
     event_type: 'FLAG_DELETED',
     data: {
       previous_state: {

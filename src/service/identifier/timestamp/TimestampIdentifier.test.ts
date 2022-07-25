@@ -9,8 +9,8 @@ test('should generate id number stringified', () => {
   scope.registerInstance('Logger', mock<Logger>())
 
   // Act
-  const identifier = scope.resolve(TimestampIdentifier)
+  const identifier = scope.resolve(TimestampIdentifier).unique()
 
   // Assert
-  expect(identifier.unique()).toBeDefined()
+  expect(identifier).toBeDefined()
 })

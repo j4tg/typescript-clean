@@ -4,6 +4,10 @@ const path = require('path')
 const slsw = require('serverless-webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 
+Object.entries(slsw.lib.entries).forEach(([key, value]) => {
+  slsw.lib.entries[key] = ['reflect-metadata', value]
+})
+
 module.exports = {
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
   entry: slsw.lib.entries,

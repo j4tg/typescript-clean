@@ -4,6 +4,7 @@ import { Feature } from '../model/Feature'
 import { FeatureRepository } from '../repository/FeatureRepository'
 import { FeatureRemote } from '../service/feature-remote/FeatureRemote'
 import { Identifier } from '../service/identifier/Identifier'
+import { Catch } from '@/error/catch'
 
 @injectable()
 export class FeatureSyncWithWebhook {
@@ -14,6 +15,7 @@ export class FeatureSyncWithWebhook {
     @inject('Logger') private readonly logger: Logger
   ) {}
 
+  @Catch()
   async execute(webhook: unknown): Promise<void> {
     this.logger.debug('feature sync with webhook')
 

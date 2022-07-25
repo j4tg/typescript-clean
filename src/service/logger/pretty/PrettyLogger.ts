@@ -1,5 +1,5 @@
 import { Logger } from '../Logger'
-import { stringify } from '../stringify'
+import { stringify } from '@/shared/stringify'
 
 export class PrettyLogger implements Logger {
   private readonly color = {

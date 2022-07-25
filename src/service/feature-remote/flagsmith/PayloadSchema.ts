@@ -9,15 +9,14 @@ export const PayloadSchema = z.object({
           name: z.string()
         })
       })
-      .nullable(),
+      .optional(),
     previous_state: z
       .object({
-        enabled: z.boolean(),
         feature: z.object({
           name: z.string()
         })
       })
-      .nullable()
+      .optional()
   }),
   event_type: z.enum(['FLAG_DELETED', 'FLAG_UPDATED'])
 })

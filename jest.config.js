@@ -9,5 +9,6 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: __dirname
   }),
+  setupFiles: ['./test/setup.ts'],
   collectCoverageFrom: ['src/**']
 }

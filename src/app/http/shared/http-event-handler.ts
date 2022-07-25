@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Logger } from '@/service/logger/Logger'
-import { stringify } from '@/service/logger/stringify'
+import { stringify } from '@/shared/stringify'
 import { container } from '@/injection/container'
 
 export const httpEventHandler = (handler: Handler) => {
@@ -15,19 +15,12 @@ export const httpEventHandler = (handler: Handler) => {
       }
     } catch (error) {
       logger.debug('http event handler error', error)
-
-      let message = 'Unknown error'
-      let debug
-
-      if (error instanceof Error) {
-        message = error.message
-        debug = JSON.parse(stringify(error))
-      }
+      let debug = JSON.parse(stringify(error))
 
       return {
         statusCode: 500,
         body: JSON.stringify({
-          error: message,
+          error: 'Unexpected error',
           debug
         })
       }

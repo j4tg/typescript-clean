@@ -1,5 +1,5 @@
 import { Logger } from '../Logger'
-import { stringify } from '../stringify'
+import { stringify } from '@/shared/stringify'
 
 export class JsonLogger implements Logger {
   debug(message: string, ...details: unknown[]): void {

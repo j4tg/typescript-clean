@@ -46,7 +46,7 @@ function eslint {
   # to try fix: ./run.sh eslint --fix
 
   local args="$@"
-  [[ -z $args ]] && args="--max-warnings 0"
+  # [[ -z $args ]] && args="--max-warnings 0"
 
   npx eslint --ext .js,.ts $args . || {
     echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"

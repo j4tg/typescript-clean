@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import './service/logger'
 import './service/identifier'
 import './service/feature-flag'

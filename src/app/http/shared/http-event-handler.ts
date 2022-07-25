@@ -15,7 +15,7 @@ export const httpEventHandler = (handler: Handler) => {
       }
     } catch (error) {
       logger.debug('http event handler error', error)
-      let debug = JSON.parse(stringify(error))
+      const debug = JSON.parse(stringify(error))
 
       return {
         statusCode: 500,

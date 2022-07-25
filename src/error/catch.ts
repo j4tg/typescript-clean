@@ -1,6 +1,6 @@
 import { stringify } from '@/shared/stringify'
 
-export function tryCatch() {
+export function Catch() {
   return (target: unknown, propertyName: string, descriptor: PropertyDescriptor) => {
     const method = descriptor.value
     const handleError = buildHandleError(buildTargetName(target, propertyName))

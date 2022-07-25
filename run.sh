@@ -57,7 +57,7 @@ function eslint {
 function _loadenv {
   # this function must be used inside other functions
 
-  # load env variables from .env file if exists
+  # load env variables from .env.local file if exists
   # override env variables with .env.local file by default if exists
   # override env variables with .env.<environment> file if exists: ./run.sh _loadenv <enviroment>
 

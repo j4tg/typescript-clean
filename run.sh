@@ -8,12 +8,13 @@ function install {
 }
 
 function server {
-  local args="$@"
-  [[ -z $args ]] && args="--stage local"
+  local environment="$@"
+  [[ -z $environment ]] && environment="local"
 
-  prettier &&
+  _loadenv $environment &&
+    prettier &&
     eslint &&
-    DEBUG=@:* npx serverless offline start $args
+    DEBUG=@:* npx serverless offline start --stage $environment
 }
 
 function test {
@@ -23,6 +24,7 @@ function test {
   local args="$@"
   [[ -z $args ]] && args="--coverage"
 
+  # the project should be in mock mode by default and should not need to load an environment
   prettier &&
     eslint &&
     npx jest $args
@@ -50,6 +52,22 @@ function eslint {
     echo -e "\ntry to fix: ${WC}./run.sh eslint --fix${NC}"
     exit $1
   }
+}
+
+function _loadenv {
+  # this function must be used inside other functions
+
+  # load env variables from .env file if exists
+  # override env variables with .env.local file by default if exists
+  # override env variables with .env.<environment> file if exists: ./run.sh _loadenv <enviroment>
+
+  local environment="$@"
+  [[ -z $environment ]] && environment="local"
+
+  for file in .env .env.${environment}; do
+    # comments in file are supported
+    [[ ! -f $file ]] || export $(grep -v '^#' $file | xargs)
+  done
 }
 
 ${@:-echo "enter a command"}

@@ -15,3 +15,4 @@ coverage
 !.prettierignore
 !.eslintrc.json
 !.eslintignore
+!.env

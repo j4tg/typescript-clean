@@ -3,7 +3,7 @@ import { Logger } from '@/service/logger/Logger'
 import { Feature } from '../model/Feature'
 import { FeatureRepository } from '../repository/FeatureRepository'
 import { FeatureRemote } from '../service/feature-remote/FeatureRemote'
-import { Identifier } from '../service/identifier/Identifier'
+import { Unique } from '../service/unique/Unique'
 import { Catch } from '@/error/catch'
 
 @injectable()
@@ -11,7 +11,7 @@ export class FeatureSyncWithWebhook {
   constructor(
     @inject('FeatureRemote') private readonly featureRemote: FeatureRemote,
     @inject('FeatureRepository') private readonly featureRepository: FeatureRepository,
-    @inject('Identifier') private readonly identifier: Identifier,
+    @inject('Unique') private readonly unique: Unique,
     @inject('Logger') private readonly logger: Logger
   ) {}
 
@@ -40,8 +40,6 @@ export class FeatureSyncWithWebhook {
     }
 
     this.logger.debug(`feature sync with webhook create`)
-    await this.featureRepository.create(
-      new Feature(this.identifier.unique(), featureWebhook.name, featureWebhook.isEnabled)
-    )
+    await this.featureRepository.create(new Feature(this.unique.id(), featureWebhook.name, featureWebhook.isEnabled))
   }
 }

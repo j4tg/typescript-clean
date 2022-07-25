@@ -1,6 +1,5 @@
 import './service/logger'
-import './service/identifier'
-import './service/feature-flag'
+import './service/unique'
 import './service/feature-remote'
 import './repository/feature'
 

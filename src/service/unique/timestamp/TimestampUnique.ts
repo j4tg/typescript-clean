@@ -1,12 +1,12 @@
 import { Logger } from '@/service/logger/Logger'
 import { inject, injectable } from 'tsyringe'
-import { Identifier } from '../Identifier'
+import { Unique } from '../Unique'
 
 @injectable()
-export class TimestampIdentifier implements Identifier {
+export class TimestampUnique implements Unique {
   constructor(@inject('Logger') private readonly logger: Logger) {}
 
-  unique(): string {
+  id(): string {
     this.logger.debug('timestamp identifier unique')
     return new Date().getTime().toString()
   }

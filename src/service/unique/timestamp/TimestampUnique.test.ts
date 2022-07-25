@@ -1,5 +1,5 @@
 import { container } from '@/injection/container'
-import { TimestampIdentifier } from './TimestampIdentifier'
+import { TimestampUnique } from './TimestampUnique'
 import { mock } from 'jest-mock-extended'
 import { Logger } from '@/service/logger/Logger'
 
@@ -9,8 +9,8 @@ test('should generate id number stringified', () => {
   scope.registerInstance('Logger', mock<Logger>())
 
   // Act
-  const identifier = scope.resolve(TimestampIdentifier).unique()
+  const id = scope.resolve(TimestampUnique).id()
 
   // Assert
-  expect(identifier).toBeDefined()
+  expect(id).toBeDefined()
 })

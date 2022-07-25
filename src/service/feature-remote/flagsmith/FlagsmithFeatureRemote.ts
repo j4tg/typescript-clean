@@ -10,7 +10,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
 
   @tryCatch()
   parseWebhook(webhook: unknown): Feature {
-    this.logger.debug('flagsmith feature remote webhook', webhook)
+    this.logger.debug('flagsmith feature remote webhook')
 
     const payload = PayloadSchema.parse(webhook)
 

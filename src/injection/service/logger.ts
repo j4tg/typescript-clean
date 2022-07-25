@@ -1,5 +1,19 @@
 import { container } from 'tsyringe'
 import { Logger } from '@/service/logger/Logger'
 import { PrettyLogger } from '@/service/logger/pretty/PrettyLogger'
+import { JsonLogger } from '@/service/logger/json/JsonLogger'
+// import { FakeLogger } from '@/service/logger/fake/FakeLogger'
 
-container.register<Logger>('Logger', PrettyLogger)
+switch (process.env.SERVICE__LOGGER) {
+  case 'pretty':
+    container.register<Logger>('Logger', PrettyLogger)
+    break
+
+  case 'json':
+    container.register<Logger>('Logger', JsonLogger)
+    break
+
+  // default:
+  //   container.register<Logger>('Logger', FakeLogger)
+  //   break
+}

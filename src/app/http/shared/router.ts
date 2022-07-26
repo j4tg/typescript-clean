@@ -34,10 +34,11 @@ async function handler(wrapped: () => ReturnType<Route['handler']>) {
     }
   } catch (error) {
     const debug = JSON.parse(stringify(error))
+
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: 'Unexpected error',
+        error: (error as Error).message,
         debug
       })
     }

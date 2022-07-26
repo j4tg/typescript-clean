@@ -57,7 +57,7 @@ class CatchError extends Error {
     this.name = 'CatchError'
     this.innerError = innerError
 
-    if (innerError?.stack) {
+    if (innerError) {
       this.stack = innerError.stack + '\n' + this.stack
     }
   }

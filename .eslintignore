@@ -1,5 +1,10 @@
 # node
 node_modules
+package-lock.json
 
 # coverage
 coverage
+
+# build
+.webpack
+.severless

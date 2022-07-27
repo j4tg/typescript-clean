@@ -4,9 +4,9 @@ import { APIGatewayEvent, Context } from 'aws-lambda'
 
 test('deberia invocar la función que coincida con la ruta de metodo get', async () => {
   // Arrange
-  const mockHandler = jest.fn(async () => ({}))
-  const mockNotHandler1 = jest.fn(async () => ({}))
-  const mockNotHandler2 = jest.fn(async () => ({}))
+  const mockHandler = jest.fn(() => Promise.resolve({}))
+  const mockNotHandler1 = jest.fn(() => Promise.resolve({}))
+  const mockNotHandler2 = jest.fn(() => Promise.resolve({}))
 
   const handler = router([
     {
@@ -43,7 +43,7 @@ test('deberia invocar la función que coincida con la ruta de metodo get', async
 
 test('deberia retonar status http 200 por defecto', async () => {
   // Arrange
-  const mockHandler = jest.fn(async () => ({}))
+  const mockHandler = jest.fn(() => Promise.resolve({}))
   const handler = router([
     {
       path: '/handler',
@@ -68,7 +68,7 @@ test('deberia retonar status http 200 por defecto', async () => {
 
 test('deberia permitir cambiar status http', async () => {
   // Arrange
-  const mockHandler = jest.fn(async () => ({ statusCode: 201 }))
+  const mockHandler = jest.fn(() => Promise.resolve({ statusCode: 201 }))
   const handler = router([
     {
       path: '/handler',
@@ -93,7 +93,7 @@ test('deberia permitir cambiar status http', async () => {
 
 test('deberia convertir la respuesta a una cadena si el resultado del metodo es un objeto', async () => {
   // Arrange
-  const mockHandler = jest.fn(async () => ({ body: { success: true } }))
+  const mockHandler = jest.fn(() => Promise.resolve({ body: { success: true } }))
   const handler = router([
     {
       path: '/handler',
@@ -136,8 +136,8 @@ test('deberia devolver error 404 si no coincide ninguna ruta', async () => {
 
 test('deberia invocar metodo que coincida con la ruta de metodo post', async () => {
   // Arrange
-  const mockGetHandler = jest.fn(async () => ({}))
-  const mockPostHandler = jest.fn(async () => ({}))
+  const mockGetHandler = jest.fn(() => Promise.resolve({}))
+  const mockPostHandler = jest.fn(() => Promise.resolve({}))
   const handler = router([
     {
       path: '/handler',
@@ -192,7 +192,7 @@ test('deberia retornar status http 500 si ocurre un error', async () => {
 
 test('no deberia transformar la respuesta si esta ya es una cadena de texto', async () => {
   // Arrange
-  const mockHandler = jest.fn(async () => ({ body: 'test' }))
+  const mockHandler = jest.fn(() => Promise.resolve({ body: 'test' }))
   const handler = router([
     {
       path: '/handler',

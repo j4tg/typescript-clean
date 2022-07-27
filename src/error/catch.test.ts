@@ -17,14 +17,12 @@ test('deberia envolver el error de una funcion sincrona', () => {
   expect(() => descriptor.value()).toThrow('TargetName#propertyName')
 })
 
-test('deberia guardarse el error orignal en el nuevo error', async () => {
+test('deberia guardarse el error original en el nuevo error', async () => {
   // Arrange
   const target = { constructor: { name: 'TargetName' } }
   const propertyName = 'propertyName'
   const descriptor = {
-    value: async () => {
-      throw new Error('Unhandled error')
-    }
+    value: () => Promise.reject(new Error('Unhandled error'))
   }
 
   // Act

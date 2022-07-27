@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/no-var-requires: off */
-
 const path = require('path')
 const slsw = require('serverless-webpack')
 const TerserPlugin = require('terser-webpack-plugin')

@@ -9,3 +9,5 @@
 - El nombre de los archivos que contienen una `class` debe usar la convención `CamelCase`.
 - El nombre de los archivos que contienen una `interface` debe usar la convención `CamelCase`.
 - Un archivo no puede tener más de una `class` declarada.
+- Un archivo no puede tener más de un `export`
+- No usar `export default`

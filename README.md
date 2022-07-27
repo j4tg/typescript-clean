@@ -4,7 +4,7 @@
 
 **./run.sh install**
 
-Realiza una instalación limpia del proyecto. 
+Realiza una instalación limpia del proyecto.
 
 ver: https://docs.npmjs.com/cli/v8/commands/npm-ci
 

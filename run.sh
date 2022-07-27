@@ -4,7 +4,7 @@ WC='\033[1;37m' # White Color
 NC='\033[0m'    # No Color
 
 function install {
-  npm ci --loglevel=error --no-audit "$@"
+  npm ci --loglevel=error --no-audit
 }
 
 function server {

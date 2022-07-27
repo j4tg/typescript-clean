@@ -14,6 +14,11 @@ Inicia el servidor en modo de desarrollo y lee las variables desde `.env` y `.en
 
 Para cambiar el ambiente, ejecuta `./run.sh server dev` y leera las variables desde `.env` y `.env.dev`
 
+**./run.sh test**
+
+Ejecuta pruebas automatizadas con `jest` y genera el reporte de `coverage` por defecto.
+
+Cualquier argumento adicional se pasa directamente a `jest`, ejemplo: `./run.sh test <path>/file.test.js`
 
 ---
 

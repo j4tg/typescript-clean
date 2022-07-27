@@ -1,16 +1,21 @@
 # Agenda Backend API
 
-Instalar dependencias del proyecto
+## Comandos
 
-```
-./run.sh install
-```
+**./run.sh install**
 
-Ejecutar servidor en modo local
+Realiza una instalación limpia del proyecto. 
 
-```
-./run.sh server
-```
+ver: https://docs.npmjs.com/cli/v8/commands/npm-ci
+
+**./run.sh server**
+
+Inicia el servidor en modo de desarrollo y lee las variables desde `.env` y `.env.local`.
+
+Para cambiar el ambiente, ejecuta `./run.sh server dev` y leera las variables desde `.env` y `.env.dev`
+
+
+---
 
 links:
 

@@ -1,9 +1,5 @@
 import { JsonLogger } from './JsonLogger'
 
-afterEach(() => {
-  jest.clearAllMocks()
-})
-
 test('should log a message', () => {
   // Arrange
   const log = jest.spyOn(console, 'log').mockReturnValue()

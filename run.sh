@@ -27,7 +27,7 @@ function test {
   # the project should be in mock mode by default and should not need to load an environment
   prettier &&
     eslint &&
-    npx jest $args
+    npx jest --runInBand $args
 }
 
 function prettier {

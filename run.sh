@@ -14,7 +14,7 @@ function server {
   _loadenv $environment &&
     prettier &&
     eslint &&
-    DEBUG=@:* npx serverless offline start --stage $environment
+    npx serverless offline start --stage $environment
 }
 
 function test {

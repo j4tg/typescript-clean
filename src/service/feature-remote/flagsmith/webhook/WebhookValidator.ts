@@ -25,7 +25,7 @@ export class WebhookValidator {
     event_type: z.enum(['FLAG_DELETED', 'FLAG_UPDATED'])
   })
 
-  guard(payload: unknown): payload is Webhook {
+  isValid(payload: unknown): payload is Webhook {
     const { success } = this.schema.safeParse(payload)
     return success
   }

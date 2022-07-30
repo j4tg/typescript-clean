@@ -14,7 +14,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
   parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith feature remote webhook')
 
-    if (!this.webhookValidator.guard(webhook)) {
+    if (!this.webhookValidator.isValid(webhook)) {
       throw new Error('Invalid webhook payload')
     }
 

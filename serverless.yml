@@ -14,6 +14,7 @@ provider:
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
+    excludeFiles: ./**/*.test.ts
 
 functions:
   api:

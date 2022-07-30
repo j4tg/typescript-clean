@@ -5,7 +5,11 @@ import { WebhookValidator } from './webhook/WebhookValidator'
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
-  constructor(@inject('Logger') private readonly logger: Logger, private readonly webhookValidator: WebhookValidator) {}
+  constructor(
+    @inject('Logger')
+    private readonly logger: Logger,
+    private readonly webhookValidator: WebhookValidator
+  ) {}
 
   parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith feature remote webhook')

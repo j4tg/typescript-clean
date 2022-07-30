@@ -15,21 +15,26 @@ export class InMemoryFeatureRepository implements FeatureRepository {
   }
 
   async update(feature: Feature): Promise<void> {
-    InMemoryFeatureRepository.features = InMemoryFeatureRepository.features.map((item) => {
-      if (item.id === feature.id) {
-        item.isEnabled = feature.isEnabled
+    InMemoryFeatureRepository.features = InMemoryFeatureRepository.features.map(
+      (item) => {
+        if (item.id === feature.id) {
+          item.isEnabled = feature.isEnabled
+          return item
+        }
         return item
       }
-      return item
-    })
+    )
   }
 
   async deleteById(featureId: string): Promise<void> {
-    InMemoryFeatureRepository.features = InMemoryFeatureRepository.features.filter((item) => item.id !== featureId)
+    InMemoryFeatureRepository.features =
+      InMemoryFeatureRepository.features.filter((item) => item.id !== featureId)
   }
 
   async getByName(featureName: string): Promise<Feature | undefined> {
-    return InMemoryFeatureRepository.features.find((item) => item.name === featureName)
+    return InMemoryFeatureRepository.features.find(
+      (item) => item.name === featureName
+    )
   }
 
   async getAll(): Promise<Feature[]> {

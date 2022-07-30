@@ -7,7 +7,9 @@ export const handler = router([
     path: '/webhook',
     method: 'GET',
     handler: async ({ event }) => {
-      await container.resolve(FeatureSyncWithWebhook).execute(JSON.parse(event.body || '{}'))
+      await container
+        .resolve(FeatureSyncWithWebhook)
+        .execute(JSON.parse(event.body || '{}'))
       return {
         body: 'success'
       }

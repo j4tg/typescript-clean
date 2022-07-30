@@ -8,10 +8,14 @@ import { Unique } from '../service/unique/Unique'
 @injectable()
 export class FeatureSyncWithWebhook {
   constructor(
-    @inject('FeatureRemote') private readonly featureRemote: FeatureRemote,
-    @inject('FeatureRepository') private readonly featureRepository: FeatureRepository,
-    @inject('Unique') private readonly unique: Unique,
-    @inject('Logger') private readonly logger: Logger
+    @inject('FeatureRemote')
+    private readonly featureRemote: FeatureRemote,
+    @inject('FeatureRepository')
+    private readonly featureRepository: FeatureRepository,
+    @inject('Unique')
+    private readonly unique: Unique,
+    @inject('Logger')
+    private readonly logger: Logger
   ) {}
 
   async execute(webhook: unknown): Promise<void> {
@@ -38,6 +42,12 @@ export class FeatureSyncWithWebhook {
     }
 
     this.logger.debug(`feature sync with webhook create`)
-    await this.featureRepository.create(new Feature(this.unique.id(), featureWebhook.name, featureWebhook.isEnabled))
+    await this.featureRepository.create(
+      new Feature(
+        this.unique.id(),
+        featureWebhook.name,
+        featureWebhook.isEnabled
+      )
+    )
   }
 }

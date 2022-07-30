@@ -9,7 +9,10 @@ test('should return the name of the feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.guard.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+    mock<Logger>(),
+    webhookValidator
+  )
   const webhook: Webhook = {
     event_type: 'FLAG_UPDATED',
     data: {
@@ -35,7 +38,10 @@ test('should return an enabled feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.guard.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+    mock<Logger>(),
+    webhookValidator
+  )
   const webhook: Webhook = {
     event_type: 'FLAG_UPDATED',
     data: {
@@ -62,7 +68,10 @@ test('should return an disabled feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.guard.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+    mock<Logger>(),
+    webhookValidator
+  )
   const webhook: Webhook = {
     event_type: 'FLAG_UPDATED',
     data: {
@@ -89,7 +98,10 @@ test('should return an deleted feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.guard.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+    mock<Logger>(),
+    webhookValidator
+  )
   const webhook: Webhook = {
     event_type: 'FLAG_DELETED',
     data: {

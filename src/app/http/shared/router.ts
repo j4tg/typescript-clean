@@ -14,7 +14,9 @@ export function router(routes: Route[]) {
         continue
       }
 
-      return await handler(async () => route.handler({ event, context, params }))
+      return await handler(async () =>
+        route.handler({ event, context, params })
+      )
     }
 
     return {
@@ -30,7 +32,10 @@ async function handler(wrapped: () => ReturnType<Route['handler']>) {
 
     return {
       statusCode: response.statusCode ?? 200,
-      body: typeof response.body !== 'string' ? JSON.stringify(response.body) : response.body
+      body:
+        typeof response.body !== 'string'
+          ? JSON.stringify(response.body)
+          : response.body
     }
   } catch (error) {
     const debug = JSON.parse(stringify(error))

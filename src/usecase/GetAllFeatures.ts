@@ -6,8 +6,10 @@ import { Logger } from '@/service/logger/Logger'
 @injectable()
 export class GetAllFeatures {
   constructor(
-    @inject('FeatureRepository') private readonly featureRepository: FeatureRepository,
-    @inject('Logger') private readonly logger: Logger
+    @inject('FeatureRepository')
+    private readonly featureRepository: FeatureRepository,
+    @inject('Logger')
+    private readonly logger: Logger
   ) {}
 
   async execute(): Promise<Feature[]> {

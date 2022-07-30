@@ -93,7 +93,9 @@ test('deberia permitir cambiar status http', async () => {
 
 test('deberia convertir la respuesta a una cadena si el resultado del metodo es un objeto', async () => {
   // Arrange
-  const mockHandler = jest.fn(() => Promise.resolve({ body: { success: true } }))
+  const mockHandler = jest.fn(() =>
+    Promise.resolve({ body: { success: true } })
+  )
   const handler = router([
     {
       path: '/handler',

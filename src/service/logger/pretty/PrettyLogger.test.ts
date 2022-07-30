@@ -21,7 +21,10 @@ test('should log a message with a detail', () => {
   logger.debug('message', 'detail')
 
   // Assert
-  expect(log).toHaveBeenCalledWith(expect.stringMatching(/message/), expect.stringMatching(/detail/))
+  expect(log).toHaveBeenCalledWith(
+    expect.stringMatching(/message/),
+    expect.stringMatching(/detail/)
+  )
 })
 
 test('should log a message with a object detail', () => {
@@ -33,5 +36,8 @@ test('should log a message with a object detail', () => {
   logger.debug('message', {})
 
   // Assert
-  expect(log).toHaveBeenCalledWith(expect.stringMatching(/message/), expect.stringMatching(/{}/))
+  expect(log).toHaveBeenCalledWith(
+    expect.stringMatching(/message/),
+    expect.stringMatching(/{}/)
+  )
 })

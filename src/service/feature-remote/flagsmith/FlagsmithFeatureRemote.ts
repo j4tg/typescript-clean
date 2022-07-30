@@ -1,25 +1,25 @@
 import { inject, injectable } from 'tsyringe'
-import { Catch } from '@/error/catch'
 import { Logger } from '@/service/logger/Logger'
 import { FeatureRemote, Feature } from '../FeatureRemote'
-import { WebhookPayload } from './WebhookPayload'
+import { WebhookValidator } from './webhook/WebhookValidator'
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
-  constructor(@inject('Logger') private readonly logger: Logger) {}
+  constructor(@inject('Logger') private readonly logger: Logger, private readonly webhookValidator: WebhookValidator) {}
 
-  @Catch()
   parseWebhook(webhook: unknown): Feature {
     this.logger.debug('flagsmith feature remote webhook')
 
-    const payload = WebhookPayload.parse(webhook)
+    if (!this.webhookValidator.guard(webhook)) {
+      throw new Error('Invalid webhook payload')
+    }
 
-    if (payload.event_type === 'FLAG_DELETED') {
-      if (payload.data.previous_state == null) {
+    if (webhook.event_type === 'FLAG_DELETED') {
+      if (webhook.data.previous_state == null) {
         throw new Error('previous_state is required')
       }
 
-      const { name } = payload.data.previous_state.feature
+      const { name } = webhook.data.previous_state.feature
       return {
         name,
         isEnabled: false,
@@ -27,12 +27,12 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
       }
     }
 
-    if (payload.data.new_state == null) {
+    if (webhook.data.new_state == null) {
       throw new Error('new_state is required')
     }
 
-    const { name } = payload.data.new_state.feature
-    const isEnabled = !!payload.data.new_state.enabled
+    const { name } = webhook.data.new_state.feature
+    const isEnabled = !!webhook.data.new_state.enabled
 
     return {
       name,

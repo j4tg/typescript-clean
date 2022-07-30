@@ -1,13 +1,16 @@
 import { FlagsmithFeatureRemote } from './FlagsmithFeatureRemote'
-import { WebhookPayload } from './WebhookPayload'
+import { WebhookValidator } from './webhook/WebhookValidator'
+import { Webhook } from './webhook/Webhook'
 import { mock } from 'jest-mock-extended'
 import { Logger } from '@/service/logger/Logger'
-import { z } from 'zod'
 
 test('should return the name of the feature', () => {
   // Arrange
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
-  const webhook: z.infer<typeof WebhookPayload> = {
+  const webhookValidator = mock<WebhookValidator>()
+  webhookValidator.guard.mockReturnValue(true)
+
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const webhook: Webhook = {
     event_type: 'FLAG_UPDATED',
     data: {
       new_state: {
@@ -23,13 +26,17 @@ test('should return the name of the feature', () => {
   const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
+  expect(webhookValidator.guard).toHaveBeenCalled()
   expect(feature.name).toEqual('JIRA_1001')
 })
 
 test('should return an enabled feature', () => {
   // Arrange
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
-  const webhook: z.infer<typeof WebhookPayload> = {
+  const webhookValidator = mock<WebhookValidator>()
+  webhookValidator.guard.mockReturnValue(true)
+
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const webhook: Webhook = {
     event_type: 'FLAG_UPDATED',
     data: {
       new_state: {
@@ -45,14 +52,18 @@ test('should return an enabled feature', () => {
   const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
+  expect(webhookValidator.guard).toHaveBeenCalled()
   expect(feature.isEnabled).toBeTruthy()
   expect(feature.isDeleted).toBeFalsy()
 })
 
 test('should return an disabled feature', () => {
   // Arrange
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
-  const webhook: z.infer<typeof WebhookPayload> = {
+  const webhookValidator = mock<WebhookValidator>()
+  webhookValidator.guard.mockReturnValue(true)
+
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const webhook: Webhook = {
     event_type: 'FLAG_UPDATED',
     data: {
       new_state: {
@@ -68,14 +79,18 @@ test('should return an disabled feature', () => {
   const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
+  expect(webhookValidator.guard).toHaveBeenCalled()
   expect(feature.isEnabled).toBeFalsy()
   expect(feature.isDeleted).toBeFalsy()
 })
 
 test('should return an deleted feature', () => {
   // Arrange
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>())
-  const webhook: z.infer<typeof WebhookPayload> = {
+  const webhookValidator = mock<WebhookValidator>()
+  webhookValidator.guard.mockReturnValue(true)
+
+  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(mock<Logger>(), webhookValidator)
+  const webhook: Webhook = {
     event_type: 'FLAG_DELETED',
     data: {
       previous_state: {
@@ -90,6 +105,7 @@ test('should return an deleted feature', () => {
   const feature = flagsmithFeatureRemote.parseWebhook(webhook)
 
   // Assert
+  expect(webhookValidator.guard).toHaveBeenCalled()
   expect(feature.isEnabled).toBeFalsy()
   expect(feature.isDeleted).toBeTruthy()
 })

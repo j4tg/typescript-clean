@@ -38,7 +38,7 @@ async function handler(wrapped: () => ReturnType<Route['handler']>) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        error: (error as Error).message,
+        error: 'Unhandled error',
         debug
       })
     }

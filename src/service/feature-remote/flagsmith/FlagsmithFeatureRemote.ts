@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe'
 import { Logger } from '@/service/logger/Logger'
 import { FeatureRemote, Feature } from '../FeatureRemote'
 import { WebhookValidator } from './webhook/WebhookValidator'
+import { ValidationError } from '@/error/ValidationError'
 
 @injectable()
 export class FlagsmithFeatureRemote implements FeatureRemote {
@@ -15,12 +16,12 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
     this.logger.debug('flagsmith feature remote webhook')
 
     if (!this.webhookValidator.isValid(webhook)) {
-      throw new Error('Invalid webhook payload')
+      throw new ValidationError('Invalid webhook payload')
     }
 
     if (webhook.event_type === 'FLAG_DELETED') {
       if (webhook.data.previous_state == null) {
-        throw new Error('previous_state is required')
+        throw new ValidationError('previous_state is required')
       }
 
       const { name } = webhook.data.previous_state.feature
@@ -32,7 +33,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
     }
 
     if (webhook.data.new_state == null) {
-      throw new Error('new_state is required')
+      throw new ValidationError('new_state is required')
     }
 
     const { name } = webhook.data.new_state.feature

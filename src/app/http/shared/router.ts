@@ -1,3 +1,4 @@
+import { ValidationError } from '@/error/ValidationError'
 import { stringify } from '@/shared/stringify'
 import { APIGatewayEvent, Context } from 'aws-lambda'
 import UrlPattern from 'url-pattern'
@@ -40,11 +41,21 @@ async function handler(wrapped: () => ReturnType<Route['handler']>) {
   } catch (error) {
     const debug = JSON.parse(stringify(error))
 
+    let status = 500
+    let name = 'Internal Server Error'
+
+    if (error instanceof ValidationError) {
+      status = 400
+      name = 'Bad Request'
+    }
+
     return {
-      statusCode: 500,
+      statusCode: status,
       body: JSON.stringify({
-        error: 'Unhandled error',
-        debug
+        error: name,
+        message: (error as Error).message,
+        timestamp: new Date().toISOString(),
+        debug: debug
       })
     }
   }

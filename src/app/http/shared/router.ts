@@ -21,7 +21,7 @@ export function router(routes: Route[]) {
 
       return {
         statusCode: statusCode ?? 200,
-        body: body !== 'string' ? JSON.stringify(body) : body
+        body: typeof body !== 'string' ? JSON.stringify(body) : body
       }
     }
 

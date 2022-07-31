@@ -15,9 +15,7 @@ export function router(routes: Route[]) {
         continue
       }
 
-      return await handler(async () =>
-        route.handler({ event, context, params })
-      )
+      return await handler(() => route.handler({ event, context, params }))
     }
 
     return {

@@ -1,4 +1,4 @@
-export interface FeatureRemote {
+export interface FeatureSource {
   parseWebhook: (webhook: unknown) => Feature
 }
 

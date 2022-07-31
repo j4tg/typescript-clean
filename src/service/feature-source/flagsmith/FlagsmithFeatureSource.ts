@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe'
 import { Logger } from '@/service/logger/Logger'
-import { FeatureRemote, Feature } from '../FeatureRemote'
+import { FeatureSource, Feature } from '../FeatureSource'
 import { WebhookValidator } from './webhook/WebhookValidator'
 import { ValidationError } from '@/error/ValidationError'
 
 @injectable()
-export class FlagsmithFeatureRemote implements FeatureRemote {
+export class FlagsmithFeatureSource implements FeatureSource {
   constructor(
     @inject('Logger')
     private readonly logger: Logger,
@@ -13,7 +13,7 @@ export class FlagsmithFeatureRemote implements FeatureRemote {
   ) {}
 
   parseWebhook(webhook: unknown): Feature {
-    this.logger.debug('flagsmith feature remote webhook')
+    this.logger.debug('flagsmith feature source webhook')
 
     if (!this.webhookValidator.isValid(webhook)) {
       throw new ValidationError('Invalid webhook payload')

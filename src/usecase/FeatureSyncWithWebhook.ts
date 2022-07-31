@@ -2,14 +2,14 @@ import { inject, injectable } from 'tsyringe'
 import { Logger } from '@/service/logger/Logger'
 import { Feature } from '../model/Feature'
 import { FeatureRepository } from '../repository/FeatureRepository'
-import { FeatureRemote } from '../service/feature-remote/FeatureRemote'
+import { FeatureSource } from '../service/feature-source/FeatureSource'
 import { Unique } from '../service/unique/Unique'
 
 @injectable()
 export class FeatureSyncWithWebhook {
   constructor(
-    @inject('FeatureRemote')
-    private readonly featureRemote: FeatureRemote,
+    @inject('FeatureSource')
+    private readonly featureSource: FeatureSource,
     @inject('FeatureRepository')
     private readonly featureRepository: FeatureRepository,
     @inject('Unique')
@@ -21,7 +21,7 @@ export class FeatureSyncWithWebhook {
   async execute(webhook: unknown): Promise<void> {
     this.logger.debug('feature sync with webhook')
 
-    const featureWebhook = this.featureRemote.parseWebhook(webhook)
+    const featureWebhook = this.featureSource.parseWebhook(webhook)
     const feature = await this.featureRepository.getByName(featureWebhook.name)
 
     if (featureWebhook.isDeleted) {

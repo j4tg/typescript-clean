@@ -1,4 +1,4 @@
-import { FlagsmithFeatureRemote } from './FlagsmithFeatureRemote'
+import { FlagsmithFeatureSource } from './FlagsmithFeatureSource'
 import { WebhookValidator } from './webhook/WebhookValidator'
 import { Webhook } from './webhook/Webhook'
 import { mock } from 'jest-mock-extended'
@@ -9,7 +9,7 @@ test('should return the name of the feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.isValid.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+  const flagsmithFeatureSource = new FlagsmithFeatureSource(
     mock<Logger>(),
     webhookValidator
   )
@@ -26,7 +26,7 @@ test('should return the name of the feature', () => {
   }
 
   // Act
-  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
+  const feature = flagsmithFeatureSource.parseWebhook(webhook)
 
   // Assert
   expect(webhookValidator.isValid).toHaveBeenCalled()
@@ -38,7 +38,7 @@ test('should return an enabled feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.isValid.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+  const flagsmithFeatureSource = new FlagsmithFeatureSource(
     mock<Logger>(),
     webhookValidator
   )
@@ -55,7 +55,7 @@ test('should return an enabled feature', () => {
   }
 
   // Act
-  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
+  const feature = flagsmithFeatureSource.parseWebhook(webhook)
 
   // Assert
   expect(webhookValidator.isValid).toHaveBeenCalled()
@@ -68,7 +68,7 @@ test('should return an disabled feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.isValid.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+  const flagsmithFeatureSource = new FlagsmithFeatureSource(
     mock<Logger>(),
     webhookValidator
   )
@@ -85,7 +85,7 @@ test('should return an disabled feature', () => {
   }
 
   // Act
-  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
+  const feature = flagsmithFeatureSource.parseWebhook(webhook)
 
   // Assert
   expect(webhookValidator.isValid).toHaveBeenCalled()
@@ -98,7 +98,7 @@ test('should return an deleted feature', () => {
   const webhookValidator = mock<WebhookValidator>()
   webhookValidator.isValid.mockReturnValue(true)
 
-  const flagsmithFeatureRemote = new FlagsmithFeatureRemote(
+  const flagsmithFeatureSource = new FlagsmithFeatureSource(
     mock<Logger>(),
     webhookValidator
   )
@@ -114,7 +114,7 @@ test('should return an deleted feature', () => {
   }
 
   // Act
-  const feature = flagsmithFeatureRemote.parseWebhook(webhook)
+  const feature = flagsmithFeatureSource.parseWebhook(webhook)
 
   // Assert
   expect(webhookValidator.isValid).toHaveBeenCalled()

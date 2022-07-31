@@ -21,7 +21,7 @@ export function router(routes: Route[]) {
 
       return {
         statusCode: statusCode ?? 200,
-        body: safeBody(body)
+        body: body !== 'string' ? JSON.stringify(body) : body
       }
     }
 
@@ -49,10 +49,6 @@ async function wrapper(handler: () => ReturnType<Route['handler']>) {
       }
     }
   }
-}
-
-function safeBody(body: unknown): string {
-  return typeof body !== 'string' ? JSON.stringify(body) : body
 }
 
 function parseError(error: unknown) {

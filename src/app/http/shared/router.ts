@@ -10,12 +10,19 @@ export function router(routes: Route[]) {
         continue
       }
 
-      const params = new UrlPattern(route.path).match(event.path)
-      if (!params) {
+      const match = new UrlPattern(route.path).match(event.path)
+      if (!match) {
         continue
       }
 
-      return await handler(() => route.handler({ event, context, params }))
+      const { statusCode, body } = await wrapper(() =>
+        route.handler({ event, context, params: match })
+      )
+
+      return {
+        statusCode: statusCode ?? 200,
+        body: safeBody(body)
+      }
     }
 
     return {
@@ -25,53 +32,56 @@ export function router(routes: Route[]) {
   }
 }
 
-async function handler(wrapped: () => ReturnType<Route['handler']>) {
+async function wrapper(handler: () => ReturnType<Route['handler']>) {
   try {
-    const response = await wrapped()
-
-    return {
-      statusCode: response.statusCode ?? 200,
-      body:
-        typeof response.body !== 'string'
-          ? JSON.stringify(response.body)
-          : response.body
-    }
+    return await handler()
   } catch (error) {
     const debug = JSON.parse(stringify(error))
-
-    let status = 500
-    let name = 'Internal Server Error'
-
-    if (error instanceof ValidationError) {
-      status = 400
-      name = 'Bad Request'
-    }
+    const { status, name, message } = parseError(error)
 
     return {
       statusCode: status,
-      body: JSON.stringify({
+      body: {
         error: name,
-        message: (error as Error).message,
+        message: message,
         timestamp: new Date().toISOString(),
         debug: debug
-      })
+      }
     }
   }
+}
+
+function safeBody(body: unknown): string {
+  return typeof body !== 'string' ? JSON.stringify(body) : body
+}
+
+function parseError(error: unknown) {
+  let status = 500
+  let name = 'Internal Server Error'
+
+  if (error instanceof ValidationError) {
+    status = 400
+    name = 'Bad Request'
+  }
+
+  return { status, name, message: (error as Error).message }
 }
 
 interface Route {
   path: string
   method: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  handler: ({
-    event,
-    context,
-    params
-  }: {
-    event: APIGatewayEvent
-    context: Context
-    params: Record<string, unknown>
-  }) => Promise<{
-    statusCode?: number
-    body?: { [key: string]: unknown } | Array<unknown> | string
-  }>
+  handler: {
+    ({
+      event,
+      context,
+      params
+    }: {
+      event: APIGatewayEvent
+      context: Context
+      params: Record<string, unknown>
+    }): Promise<{
+      statusCode?: number
+      body?: { [key: string]: unknown } | Array<unknown> | string
+    }>
+  }
 }

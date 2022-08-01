@@ -1,13 +1,14 @@
 import { APIGatewayEvent, Context } from 'aws-lambda'
 import { mock } from 'jest-mock-extended'
-import { GetAllFeatures } from '@/usecase/GetAllFeatures'
 import { container } from '@/injection/container'
+import { GetAllFeatures } from '@/usecase/GetAllFeatures'
+import { Logger } from '@/service/logger/Logger'
 import { Router } from './shared/Router'
 import { handler } from './api'
 
 test('deberia invocar el caso de uso get all features', async () => {
   // Arrange
-  const router = container.resolve(Router)
+  const router = new Router(mock<Logger>())
   const usecase = mock<GetAllFeatures>()
   const resolveMock = jest
     .spyOn(container, 'resolve')

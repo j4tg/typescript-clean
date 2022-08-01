@@ -1,18 +1,26 @@
 import { APIGatewayEvent, Context } from 'aws-lambda'
-import { injectable } from 'tsyringe'
+import { inject, injectable } from 'tsyringe'
 import UrlPattern from 'url-pattern'
 import { stringify } from '@/shared/stringify'
 import { ValidationError } from '@/error/ValidationError'
+import { Logger } from '@/service/logger/Logger'
 
 @injectable()
 export class Router {
   private routes: Route[] = []
+
+  constructor(
+    @inject('Logger')
+    private readonly logger: Logger
+  ) {}
 
   public route(method: HttpMethod, pattern: string, handler: HttpHandler) {
     this.routes.push({ method, pattern, handler })
   }
 
   public async handler(event: APIGatewayEvent, context: Context) {
+    this.logger.debug(`${event.httpMethod} ${event.path}`)
+
     for (const route of this.routes) {
       if (route.method !== event.httpMethod) {
         continue

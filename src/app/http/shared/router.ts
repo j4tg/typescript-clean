@@ -1,6 +1,6 @@
+import UrlPattern from 'url-pattern'
 import { APIGatewayEvent, Context } from 'aws-lambda'
 import { inject, injectable } from 'tsyringe'
-import UrlPattern from 'url-pattern'
 import { stringify } from '@/shared/stringify'
 import { ValidationError } from '@/error/ValidationError'
 import { Logger } from '@/service/logger/Logger'
@@ -43,6 +43,7 @@ export class Router {
           body: typeof body !== 'string' ? JSON.stringify(body) : body
         }
       } catch (error) {
+        this.logger.debug('handler error', error)
         const formatted = this.httpErrorFormatter(error as Error)
 
         return {

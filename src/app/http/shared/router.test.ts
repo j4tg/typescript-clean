@@ -1,6 +1,6 @@
-import { Router } from './Router'
 import { mock } from 'jest-mock-extended'
 import { APIGatewayEvent, Context } from 'aws-lambda'
+import { Router } from './Router'
 import { Logger } from '@/service/logger/Logger'
 
 test('deberia invocar la función que coincida con la ruta de metodo get', async () => {

@@ -12,43 +12,41 @@ export class Router {
     this.routes.push({ method, pattern, handler })
   }
 
-  public handler() {
-    return async (event: APIGatewayEvent, context: Context) => {
-      for (const route of this.routes) {
-        if (route.method !== event.httpMethod) {
-          continue
-        }
-
-        const match = new UrlPattern(route.pattern).match(event.path)
-        if (!match) {
-          continue
-        }
-
-        try {
-          const { statusCode, body } = await route.handler({
-            event,
-            context,
-            params: match
-          })
-
-          return {
-            statusCode: statusCode ?? 200,
-            body: typeof body !== 'string' ? JSON.stringify(body) : body
-          }
-        } catch (error) {
-          const formatted = this.httpErrorFormatter(error as Error)
-
-          return {
-            statusCode: formatted.statusCode,
-            body: JSON.stringify(formatted.body)
-          }
-        }
+  public async handler(event: APIGatewayEvent, context: Context) {
+    for (const route of this.routes) {
+      if (route.method !== event.httpMethod) {
+        continue
       }
 
-      return {
-        statusCode: 404,
-        body: `Cannot ${event.httpMethod} ${event.path}`
+      const match = new UrlPattern(route.pattern).match(event.path)
+      if (!match) {
+        continue
       }
+
+      try {
+        const { statusCode, body } = await route.handler({
+          event,
+          context,
+          params: match
+        })
+
+        return {
+          statusCode: statusCode ?? 200,
+          body: typeof body !== 'string' ? JSON.stringify(body) : body
+        }
+      } catch (error) {
+        const formatted = this.httpErrorFormatter(error as Error)
+
+        return {
+          statusCode: formatted.statusCode,
+          body: JSON.stringify(formatted.body)
+        }
+      }
+    }
+
+    return {
+      statusCode: 404,
+      body: `Cannot ${event.httpMethod} ${event.path}`
     }
   }
 

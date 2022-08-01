@@ -20,7 +20,7 @@ test('deberia invocar la función que coincida con la ruta de metodo get', async
   const context = mock<Context>()
 
   // Act
-  await router.handler()(event, context)
+  await router.handler(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -42,7 +42,7 @@ test('deberia retonar status http 200 por defecto', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await router.handler()(event, context)
+  const response = await router.handler(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -63,7 +63,7 @@ test('deberia permitir cambiar status http', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await router.handler()(event, context)
+  const response = await router.handler(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -86,7 +86,7 @@ test('deberia convertir la respuesta a una cadena si el resultado del metodo es 
   const context = mock<Context>()
 
   // Act
-  const response = await router.handler()(event, context)
+  const response = await router.handler(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -103,7 +103,7 @@ test('deberia devolver error 404 si no coincide ninguna ruta', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await router.handler()(event, context)
+  const response = await router.handler(event, context)
 
   // Assert
   expect(response.statusCode).toEqual(404)
@@ -126,7 +126,7 @@ test('deberia invocar metodo que coincida con la ruta de metodo post', async () 
   const context = mock<Context>()
 
   // Act
-  await router.handler()(event, context)
+  await router.handler(event, context)
 
   // Assert
   expect(mockGetHandler).not.toHaveBeenCalled()
@@ -147,7 +147,7 @@ test('deberia retornar status http 500 si ocurre un error', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await router.handler()(event, context)
+  const response = await router.handler(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -168,7 +168,7 @@ test('no deberia transformar la respuesta si esta ya es una cadena de texto', as
   const context = mock<Context>()
 
   // Act
-  const response = await router.handler()(event, context)
+  const response = await router.handler(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()

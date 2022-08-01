@@ -1,49 +1,73 @@
-import { ValidationError } from '@/error/ValidationError'
-import { stringify } from '@/shared/stringify'
 import { APIGatewayEvent, Context } from 'aws-lambda'
+import { injectable } from 'tsyringe'
 import UrlPattern from 'url-pattern'
+import { stringify } from '@/shared/stringify'
+import { ValidationError } from '@/error/ValidationError'
 
-export function router(routes: Route[]) {
-  return async (event: APIGatewayEvent, context: Context) => {
-    for (const route of routes) {
-      if (route.method !== event.httpMethod) {
-        continue
+@injectable()
+export class Router {
+  private routes: Route[] = []
+
+  public route(method: HttpMethod, pattern: string, handler: HttpHandler) {
+    this.routes.push({ method, pattern, handler })
+  }
+
+  public handler() {
+    return async (event: APIGatewayEvent, context: Context) => {
+      for (const route of this.routes) {
+        if (route.method !== event.httpMethod) {
+          continue
+        }
+
+        const match = new UrlPattern(route.pattern).match(event.path)
+        if (!match) {
+          continue
+        }
+
+        try {
+          const { statusCode, body } = await route.handler({
+            event,
+            context,
+            params: match
+          })
+
+          return {
+            statusCode: statusCode ?? 200,
+            body: typeof body !== 'string' ? JSON.stringify(body) : body
+          }
+        } catch (error) {
+          const formatted = this.httpErrorFormatter(error as Error)
+
+          return {
+            statusCode: formatted.statusCode,
+            body: JSON.stringify(formatted.body)
+          }
+        }
       }
-
-      const match = new UrlPattern(route.path).match(event.path)
-      if (!match) {
-        continue
-      }
-
-      const { statusCode, body } = await wrapper(() =>
-        route.handler({ event, context, params: match })
-      )
 
       return {
-        statusCode: statusCode ?? 200,
-        body: typeof body !== 'string' ? JSON.stringify(body) : body
+        statusCode: 404,
+        body: `Cannot ${event.httpMethod} ${event.path}`
       }
     }
-
-    return {
-      statusCode: 404,
-      body: `Cannot ${event.httpMethod} ${event.path}`
-    }
   }
-}
 
-async function wrapper(handler: () => ReturnType<Route['handler']>) {
-  try {
-    return await handler()
-  } catch (error) {
+  private httpErrorFormatter(error: Error) {
     const debug = JSON.parse(stringify(error))
-    const { status, name, message } = parseError(error)
+
+    let status = 500
+    let name = 'Internal Server Error'
+
+    if (error instanceof ValidationError) {
+      status = 400
+      name = 'Bad Request'
+    }
 
     return {
       statusCode: status,
       body: {
         error: name,
-        message: message,
+        message: error.message,
         timestamp: new Date().toISOString(),
         debug: debug
       }
@@ -51,33 +75,24 @@ async function wrapper(handler: () => ReturnType<Route['handler']>) {
   }
 }
 
-function parseError(error: unknown) {
-  let status = 500
-  let name = 'Internal Server Error'
-
-  if (error instanceof ValidationError) {
-    status = 400
-    name = 'Bad Request'
-  }
-
-  return { status, name, message: (error as Error).message }
+interface Route {
+  method: HttpMethod
+  pattern: string
+  handler: HttpHandler
 }
 
-interface Route {
-  path: string
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  handler: {
-    ({
-      event,
-      context,
-      params
-    }: {
-      event: APIGatewayEvent
-      context: Context
-      params: Record<string, unknown>
-    }): Promise<{
-      statusCode?: number
-      body?: { [key: string]: unknown } | Array<unknown> | string
-    }>
-  }
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
+type HttpHandler = {
+  ({
+    event,
+    context,
+    params
+  }: {
+    event: APIGatewayEvent
+    context: Context
+    params: Record<string, unknown>
+  }): Promise<{
+    statusCode?: number
+    body?: { [key: string]: unknown } | Array<unknown> | string
+  }>
 }

@@ -1,15 +1,13 @@
 import { container } from '@/injection/container'
 import { GetAllFeatures } from '@/usecase/GetAllFeatures'
-import { router } from './shared/router'
+import { Router } from './shared/Router'
 
-export const handler = router([
-  {
-    path: '/api/features',
-    method: 'GET',
-    handler: async () => {
-      return {
-        body: await container.resolve(GetAllFeatures).execute()
-      }
-    }
+const router = container.resolve(Router)
+
+router.route('GET', '/api/features', async () => {
+  return {
+    body: await container.resolve(GetAllFeatures).execute()
   }
-])
+})
+
+export const handler = router.handler()

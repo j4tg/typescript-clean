@@ -1,4 +1,4 @@
-import { router } from './router'
+import { Router } from './Router'
 import { mock } from 'jest-mock-extended'
 import { APIGatewayEvent, Context } from 'aws-lambda'
 
@@ -8,23 +8,10 @@ test('deberia invocar la función que coincida con la ruta de metodo get', async
   const mockNotHandler1 = jest.fn(() => Promise.resolve({}))
   const mockNotHandler2 = jest.fn(() => Promise.resolve({}))
 
-  const handler = router([
-    {
-      path: '/handler1',
-      method: 'GET',
-      handler: mockNotHandler1
-    },
-    {
-      path: '/handler2',
-      method: 'GET',
-      handler: mockHandler
-    },
-    {
-      path: '/handler3',
-      method: 'GET',
-      handler: mockNotHandler2
-    }
-  ])
+  const router = new Router()
+  router.route('GET', '/handler1', mockNotHandler1)
+  router.route('GET', '/handler2', mockHandler)
+  router.route('GET', '/handler3', mockNotHandler2)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler2',
@@ -33,7 +20,7 @@ test('deberia invocar la función que coincida con la ruta de metodo get', async
   const context = mock<Context>()
 
   // Act
-  await handler(event, context)
+  await router.handler()(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -44,13 +31,9 @@ test('deberia invocar la función que coincida con la ruta de metodo get', async
 test('deberia retonar status http 200 por defecto', async () => {
   // Arrange
   const mockHandler = jest.fn(() => Promise.resolve({}))
-  const handler = router([
-    {
-      path: '/handler',
-      method: 'GET',
-      handler: mockHandler
-    }
-  ])
+
+  const router = new Router()
+  router.route('GET', '/handler', mockHandler)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler',
@@ -59,7 +42,7 @@ test('deberia retonar status http 200 por defecto', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await handler(event, context)
+  const response = await router.handler()(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -69,13 +52,9 @@ test('deberia retonar status http 200 por defecto', async () => {
 test('deberia permitir cambiar status http', async () => {
   // Arrange
   const mockHandler = jest.fn(() => Promise.resolve({ statusCode: 201 }))
-  const handler = router([
-    {
-      path: '/handler',
-      method: 'GET',
-      handler: mockHandler
-    }
-  ])
+
+  const router = new Router()
+  router.route('GET', '/handler', mockHandler)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler',
@@ -84,7 +63,7 @@ test('deberia permitir cambiar status http', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await handler(event, context)
+  const response = await router.handler()(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -96,13 +75,9 @@ test('deberia convertir la respuesta a una cadena si el resultado del metodo es 
   const mockHandler = jest.fn(() =>
     Promise.resolve({ body: { success: true } })
   )
-  const handler = router([
-    {
-      path: '/handler',
-      method: 'GET',
-      handler: mockHandler
-    }
-  ])
+
+  const router = new Router()
+  router.route('GET', '/handler', mockHandler)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler',
@@ -111,7 +86,7 @@ test('deberia convertir la respuesta a una cadena si el resultado del metodo es 
   const context = mock<Context>()
 
   // Act
-  const response = await handler(event, context)
+  const response = await router.handler()(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -120,8 +95,7 @@ test('deberia convertir la respuesta a una cadena si el resultado del metodo es 
 
 test('deberia devolver error 404 si no coincide ninguna ruta', async () => {
   // Arrange
-  const handler = router([])
-
+  const router = new Router()
   const event = mock<APIGatewayEvent>({
     path: '/handler',
     httpMethod: 'GET'
@@ -129,7 +103,7 @@ test('deberia devolver error 404 si no coincide ninguna ruta', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await handler(event, context)
+  const response = await router.handler()(event, context)
 
   // Assert
   expect(response.statusCode).toEqual(404)
@@ -140,18 +114,10 @@ test('deberia invocar metodo que coincida con la ruta de metodo post', async () 
   // Arrange
   const mockGetHandler = jest.fn(() => Promise.resolve({}))
   const mockPostHandler = jest.fn(() => Promise.resolve({}))
-  const handler = router([
-    {
-      path: '/handler',
-      method: 'GET',
-      handler: mockGetHandler
-    },
-    {
-      path: '/handler',
-      method: 'POST',
-      handler: mockPostHandler
-    }
-  ])
+
+  const router = new Router()
+  router.route('GET', '/handler', mockGetHandler)
+  router.route('POST', '/handler', mockPostHandler)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler',
@@ -160,7 +126,7 @@ test('deberia invocar metodo que coincida con la ruta de metodo post', async () 
   const context = mock<Context>()
 
   // Act
-  await handler(event, context)
+  await router.handler()(event, context)
 
   // Assert
   expect(mockGetHandler).not.toHaveBeenCalled()
@@ -170,13 +136,9 @@ test('deberia invocar metodo que coincida con la ruta de metodo post', async () 
 test('deberia retornar status http 500 si ocurre un error', async () => {
   // Arrange
   const mockHandler = jest.fn(() => Promise.reject(new Error()))
-  const handler = router([
-    {
-      path: '/handler',
-      method: 'GET',
-      handler: mockHandler
-    }
-  ])
+
+  const router = new Router()
+  router.route('GET', '/handler', mockHandler)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler',
@@ -185,7 +147,7 @@ test('deberia retornar status http 500 si ocurre un error', async () => {
   const context = mock<Context>()
 
   // Act
-  const response = await handler(event, context)
+  const response = await router.handler()(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
@@ -195,13 +157,9 @@ test('deberia retornar status http 500 si ocurre un error', async () => {
 test('no deberia transformar la respuesta si esta ya es una cadena de texto', async () => {
   // Arrange
   const mockHandler = jest.fn(() => Promise.resolve({ body: 'test' }))
-  const handler = router([
-    {
-      path: '/handler',
-      method: 'GET',
-      handler: mockHandler
-    }
-  ])
+
+  const router = new Router()
+  router.route('GET', '/handler', mockHandler)
 
   const event = mock<APIGatewayEvent>({
     path: '/handler',
@@ -210,7 +168,7 @@ test('no deberia transformar la respuesta si esta ya es una cadena de texto', as
   const context = mock<Context>()
 
   // Act
-  const response = await handler(event, context)
+  const response = await router.handler()(event, context)
 
   // Assert
   expect(mockHandler).toHaveBeenCalled()
